@@ -27,5 +27,10 @@ namespace NiteLigaLibrary.Classes
             this.FirstName = player.FirstName;
             this.LastName = player.LastName;
         }
+
+        public void SendMessage(MessageManager noticer, string text)
+        {
+            noticer.AddOutputMessage(new Message(this, text));
+        }
     }
 }

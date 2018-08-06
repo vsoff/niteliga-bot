@@ -7,25 +7,22 @@ using System.Threading.Tasks;
 
 namespace NiteLigaLibrary.Events
 {
-    public class TeamGetAddress : GameEvent
+    public class TeamStartsPlay : GameEvent
     {
         public int TeamId { get; set; }
-        public int TaskIndex { get; set; }
 
-        public TeamGetAddress(DateTime date, int teamId, int dropTaskId)
+        public TeamStartsPlay(DateTime date, int teamId)
         {
             this.AddDate = date;
-            this.Type = GameEventType.TeamGetAddress;
+            this.Type = GameEventType.TeamStartsPlay;
             this.TeamId = teamId;
-            this.TaskIndex = dropTaskId;
         }
 
         public override void Run(GameManager gm)
         {
             LocalTeam team = gm.Teams.First(x => x.Id == TeamId);
-            team.Progress.LastHintTime = AddDate;
-            GameTask task = team.Progress.GetCurrentTask();
-            team.SendMessage(gm.Noticer, $"Слив адреса: {task.Hint2} ({task.Address})");
+            team.Progress = new TeamGameProgress(gm.Config.Grid[gm.Teams.IndexOf(team)], AddDate);
+            team.SendMessage(gm.Noticer, $"Ваше первое задание: {team.Progress.GetCurrentTask().Task}");
         }
     }
 }

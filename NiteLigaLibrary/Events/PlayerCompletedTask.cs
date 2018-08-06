@@ -25,7 +25,11 @@ namespace NiteLigaLibrary.Events
         {
             var team = gm.Teams.First(x => x.Id == TeamId);
             team.Progress.CompleteTask(AddDate, TaskIndex);
-            team.SendMessage(gm.Noticer, $"Задание выполнено!\nСледующее задание:\n{team.Progress.GetCurrentTask()?.Task ?? "Нету"}");
+
+            if (team.Progress.IsAllTaskCompleted())
+                team.SendMessage(gm.Noticer, $"Код правильный!\r\nВсе задания выполнены, возвращайтесь на место сбора.");
+            else
+                team.SendMessage(gm.Noticer, $"Код правильный!\r\nВаше следующее задание:\r\n{team.Progress.GetCurrentTask().Task}");
         }
     }
 }

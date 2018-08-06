@@ -36,9 +36,9 @@
         PlayerFailedTask,
 
         /// <summary>
-        /// Команда получает задание.
+        /// Команда начинает играть.
         /// </summary>
-        TeamGetTask,
+        TeamStartsPlay,
         /// <summary>
         /// Команда получает подсказку (слив).
         /// </summary>

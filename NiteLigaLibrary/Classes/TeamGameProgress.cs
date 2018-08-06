@@ -34,7 +34,7 @@ namespace NiteLigaLibrary.Classes
             this.Tasks = tasks;
             this.LastTaskCompleteTime = startTime;
             this.LastHintTime = startTime;
-            this.CurrentTaskIndex = -1;
+            this.CurrentTaskIndex = 0;
         }
 
         /// <summary>
@@ -69,14 +69,6 @@ namespace NiteLigaLibrary.Classes
                 return null;
             else
                 return Tasks[CurrentTaskIndex];
-        }
-
-        /// <summary>
-        /// Возвращает True, если комнда уже вступила в игру.
-        /// </summary>
-        public bool IsTeamStarted()
-        {
-            return CurrentTaskIndex > -1;
         }
     }
 }

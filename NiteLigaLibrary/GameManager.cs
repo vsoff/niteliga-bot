@@ -17,7 +17,7 @@ namespace NiteLigaLibrary
 
         public List<LocalTeam> Teams { get; private set; }
         private GameSetting Setting { get; }
-        private GameConfig Config { get; }
+        public GameConfig Config { get; }
         private List<GameEvent> NewEvents { get; }
         public List<GameEvent> StoredEvents { get; }
 
@@ -48,11 +48,6 @@ namespace NiteLigaLibrary
 
             IsGameStarted = true;
             LaunchTime = DateTime.Now;
-
-            // Заполняем начальные данные прогресса игры
-            for (int i = 0; i < Teams.Count; i++)
-                Teams[i].Progress = new TeamGameProgress(Config.Grid[i],
-                    ((DateTime)LaunchTime).AddSeconds(Setting.SecondsDelayStart * i));
 
             NewEvents.Add(new GameStarted((DateTime)LaunchTime));
             SendBroadcastMessage("Игра началась!");
@@ -90,6 +85,14 @@ namespace NiteLigaLibrary
             // STEP 2: Добавляем новые ивенты, если прошло необходимое время (подсказка, слив адреса, слив задания)
             foreach (LocalTeam t in Teams)
             {
+                // Получение первого задания, если прошло достаточно времени и команда еще не начала играть.
+                if (t.Progress == null)
+                {
+                    if (curTime > ((DateTime)LaunchTime).AddSeconds(Setting.SecondsDelayStart * Teams.IndexOf(t)))
+                        NewEvents.Add(new TeamStartsPlay(curTime, t.Id));
+                    continue;
+                }
+
                 if (t.Progress.IsAllTaskCompleted())
                     continue;
 
@@ -97,15 +100,6 @@ namespace NiteLigaLibrary
                 double lastCompleteTaskSec = curTime.Subtract(t.Progress.LastTaskCompleteTime).TotalSeconds;
                 // Кол-во секунд, прошедшее с получения последней подсказки
                 double lastHintSec = curTime.Subtract(t.Progress.LastHintTime).TotalSeconds;
-                
-                // Получение первого задания
-                if (!t.Progress.IsTeamStarted())
-                {
-                    // if (curTime > ((DateTime)LaunchTime).AddSeconds(lastCompleteTaskSec * Teams.IndexOf(t)))
-                    // NewEvents.Add(new TeamGetTask(curTime, t.Id, 0));
-                    throw new NotImplementedException();
-                    continue;
-                }
 
                 // ... сливаем задание
                 if (lastCompleteTaskSec > (Setting.TaskDropDelaySec + Setting.Hint2DelaySec + Setting.Hint1DelaySec))
@@ -126,13 +120,13 @@ namespace NiteLigaLibrary
 
                 if (playerTeam.Progress.GetCurrentTask() == null)
                 {
-                    Noticer.AddOutputMessage(new Message(m.Player, $"Ваша команда уже выполнила все задания."));
+                    m.Player.SendMessage(Noticer, $"Ваша команда уже выполнила все задания.");
                     continue;
                 }
 
                 switch (m.Text)
                 {
-                    case "задание": Noticer.AddOutputMessage(new Message(m.Player, $"Какая-то подсказка.")); continue;
+                    case "задание": m.Player.SendMessage(Noticer, $"Какая-то подсказка."); continue;
                 }
 
                 if (playerTeam.Progress.GetCurrentTask().Code == m.Text)

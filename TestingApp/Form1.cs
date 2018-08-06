@@ -70,7 +70,7 @@ namespace TestingApp
                 listBox1.Items.Add(JsonConvert.SerializeObject(a));
 
             foreach (var a in gm.Noticer.PullOutput())
-                textBox_Messages.Text += $"{a.Player.Id}:: {a.Text}\r\n";
+                textBox_Messages.Text += $"{a.Player.FirstName} {a.Player.LastName} << {a.Text}\r\n";
         }
 
         private void timer1_Tick(object sender, EventArgs e)
