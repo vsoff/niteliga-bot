@@ -12,6 +12,7 @@ using System.Data.Entity;
 using NiteLigaLibrary.Classes;
 using Newtonsoft.Json;
 using NiteLigaLibrary.Database.Models;
+using NiteLigaLibrary.Database;
 
 namespace TestingApp
 {
@@ -47,6 +48,8 @@ namespace TestingApp
             GameConfig config = new GameConfig("{\"GameDate\":\"2018-08-02T23:04:54.2585947+03:00\",\"Address\":\"Место старта\",\"Description\":\"Описание игры\",\"Tasks\":[{\"Task\":\"Задание1\",\"Hint1\":\"Задание1\",\"Hint2\":\"Задание1\",\"Address\":\"Задание1\",\"Code\":\"Задание1\",\"Lat\":\"1.0000\",\"Lon\":\"1.0000\"},{\"Task\":\"Задание2\",\"Hint1\":\"Задание2\",\"Hint2\":\"Задание2\",\"Address\":\"Задание2\",\"Code\":\"Задание2\",\"Lat\":\"2.0000\",\"Lon\":\"2.0000\"},{\"Task\":\"Задание3\",\"Hint1\":\"Задание3\",\"Hint2\":\"Задание3\",\"Address\":\"Задание3\",\"Code\":\"Задание3\",\"Lat\":\"3.0000\",\"Lon\":\"3.0000\"}],\"TaskGrid\":[[\"0\",\"1\"],[\"2\",\"0\"],[\"1\",\"0\"]]}");
             GameSetting setting = new GameSetting()
             {
+                GameDurationMin = 1,
+                GameClosingDurationMin = 1,
                 SecondsDelayStart = 30,
                 Hint1DelaySec = 20,
                 Hint2DelaySec = 20,
@@ -81,7 +84,7 @@ namespace TestingApp
                 return;
             }
 
-            label1.Text = $"Last update: {DateTime.Now.ToLongTimeString()}";
+            label1.Text = $"Last update: {DateTime.Now.ToLongTimeString()} [{gm.GameStatus.ToString()}]";
             button2.PerformClick();
         }
 

@@ -9,6 +9,9 @@ namespace NiteLigaLibrary.Classes
 {
     public class GameSetting
     {
+        public int GameClosingDurationMin { get; set; }
+        public int GameDurationMin { get; set; }
+
         public int Hint1DelaySec { get; set; }
         public int Hint2DelaySec { get; set; }
         public int TaskDropDelaySec { get; set; }

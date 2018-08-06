@@ -1,5 +1,6 @@
 ﻿using NiteLigaLibrary.Classes;
 using NiteLigaLibrary.Events;
+using NiteLigaLibrary.Database;
 using NiteLigaLibrary.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,16 @@ namespace NiteLigaLibrary
 {
     public class GameManager
     {
-        private DateTime? LaunchTime { get; set; }
-        private bool IsGameStarted { get; set; }
-        private bool IsGameStopped { get; set; }
-
-        public List<LocalTeam> Teams { get; private set; }
-        private GameSetting Setting { get; }
-        public GameConfig Config { get; }
         private List<GameEvent> NewEvents { get; }
         public List<GameEvent> StoredEvents { get; }
+
+        public DateTime? LaunchTime { get; set; }
+        public DateTime? EndTime { get; set; }
+        public GameStatusType GameStatus { get; set; }
+        public List<LocalTeam> Teams { get; private set; }
+
+        public GameSetting Setting { get; }
+        public GameConfig Config { get; }
 
         public MessageManager Noticer { get; }
 
@@ -28,8 +30,7 @@ namespace NiteLigaLibrary
             this.Setting = setting;
             this.Config = config;
             this.LaunchTime = null;
-            this.IsGameStarted = false;
-            this.IsGameStopped = false;
+            this.GameStatus = GameStatusType.Created;
             this.Noticer = new MessageManager();
             this.NewEvents = new List<GameEvent>();
             this.StoredEvents = new List<GameEvent>();
@@ -43,10 +44,10 @@ namespace NiteLigaLibrary
 
         public void Start()
         {
-            if (IsGameStarted)
+            if (GameStatus != GameStatusType.Created)
                 throw new Exception("Нельзя начать игру, так как она уже была запущена.");
 
-            IsGameStarted = true;
+            GameStatus = GameStatusType.InProgress;
             LaunchTime = DateTime.Now;
 
             NewEvents.Add(new GameStarted((DateTime)LaunchTime));
@@ -58,7 +59,8 @@ namespace NiteLigaLibrary
         /// </summary>
         public void Iterate()
         {
-            if (!IsGameStarted || IsGameStopped) return;
+            if (GameStatus != GameStatusType.InProgress && GameStatus != GameStatusType.Stopped)
+                return;
 
             // Запоминаем время начала итерации
             DateTime curTime = DateTime.Now;
@@ -67,56 +69,60 @@ namespace NiteLigaLibrary
 
             // STEP 1: Обрабатываем все ивенты (если они есть)
             if (eventsCount > 0) {
-                // Получаем список событий, обрабатываемый на текущей итерации
+                // Получаем список ивентов, обрабатываемый на текущей итерации
                 List<GameEvent> processedEvents = NewEvents.GetRange(0, eventsCount).OrderBy(x => x.AddDate).ToList();
                 NewEvents.RemoveRange(0, eventsCount);
 
+                // Выполняем каждый ивент
                 foreach (GameEvent currentEvent in processedEvents)
-                {
-                    if (currentEvent.Type == GameEventType.GameStopped)
-                        return;
                     currentEvent.Run(this);
-                }
 
                 // Добавляем все обработанные ивенты в список
                 StoredEvents.AddRange(processedEvents);
             }
 
             // STEP 2: Добавляем новые ивенты, если прошло необходимое время (подсказка, слив адреса, слив задания)
-            foreach (LocalTeam t in Teams)
-            {
-                // Получение первого задания, если прошло достаточно времени и команда еще не начала играть.
-                if (t.Progress == null)
+            if (GameStatus != GameStatusType.Stopped)
+                foreach (LocalTeam t in Teams)
                 {
-                    if (curTime > ((DateTime)LaunchTime).AddSeconds(Setting.SecondsDelayStart * Teams.IndexOf(t)))
-                        NewEvents.Add(new TeamStartsPlay(curTime, t.Id));
-                    continue;
+                    // Получение первого задания, если прошло достаточно времени и команда еще не начала играть.
+                    if (t.Progress == null)
+                    {
+                        if (curTime > ((DateTime)LaunchTime).AddSeconds(Setting.SecondsDelayStart * Teams.IndexOf(t)))
+                            NewEvents.Add(new TeamStartsPlay(curTime, t.Id));
+                        continue;
+                    }
+
+                    if (t.Progress.IsAllTaskCompleted())
+                        continue;
+
+                    // Кол-во секунд, прошедшее со сдачи последнего задания
+                    double lastCompleteTaskSec = curTime.Subtract(t.Progress.LastTaskCompleteTime).TotalSeconds;
+                    // Кол-во секунд, прошедшее с получения последней подсказки
+                    double lastHintSec = curTime.Subtract(t.Progress.LastHintTime).TotalSeconds;
+
+                    // ... сливаем задание
+                    if (lastCompleteTaskSec > (Setting.TaskDropDelaySec + Setting.Hint2DelaySec + Setting.Hint1DelaySec))
+                        NewEvents.Add(new TeamDropTask(curTime, t.Id, t.Progress.CurrentTaskIndex));
+                    // ... сливаем адрес
+                    else if (lastCompleteTaskSec > (Setting.Hint2DelaySec + Setting.Hint1DelaySec) && lastHintSec > Setting.Hint2DelaySec)
+                        NewEvents.Add(new TeamGetAddress(curTime, t.Id, t.Progress.CurrentTaskIndex));
+                    // ... сливаем подсказку
+                    else if (lastCompleteTaskSec > (Setting.Hint1DelaySec) && lastHintSec > Setting.Hint1DelaySec)
+                        NewEvents.Add(new TeamGetHint(curTime, t.Id, t.Progress.CurrentTaskIndex));
                 }
-
-                if (t.Progress.IsAllTaskCompleted())
-                    continue;
-
-                // Кол-во секунд, прошедшее со сдачи последнего задания
-                double lastCompleteTaskSec = curTime.Subtract(t.Progress.LastTaskCompleteTime).TotalSeconds;
-                // Кол-во секунд, прошедшее с получения последней подсказки
-                double lastHintSec = curTime.Subtract(t.Progress.LastHintTime).TotalSeconds;
-
-                // ... сливаем задание
-                if (lastCompleteTaskSec > (Setting.TaskDropDelaySec + Setting.Hint2DelaySec + Setting.Hint1DelaySec))
-                    NewEvents.Add(new TeamDropTask(curTime, t.Id, t.Progress.CurrentTaskIndex));
-                // ... сливаем адрес
-                else if (lastCompleteTaskSec > (Setting.Hint2DelaySec + Setting.Hint1DelaySec) && lastHintSec > Setting.Hint2DelaySec)
-                    NewEvents.Add(new TeamGetAddress(curTime, t.Id, t.Progress.CurrentTaskIndex));
-                // ... сливаем подсказку
-                else if (lastCompleteTaskSec > (Setting.Hint1DelaySec) && lastHintSec > Setting.Hint1DelaySec)
-                    NewEvents.Add(new TeamGetHint(curTime, t.Id, t.Progress.CurrentTaskIndex));
-            }
 
             // STEP 3: Анализируем пришедшие сообщения от пользователей и добавляем новые ивенты
             List<Message> inputMessages = Noticer.PullInput();
             foreach (Message m in inputMessages)
             {
                 LocalTeam playerTeam = Teams.First(x => x.Id == m.Player.TeamId);
+
+                if (playerTeam.Progress == null)
+                {
+                    m.Player.SendMessage(Noticer, $"Ваша команда еще не получила первое задание.");
+                    continue;
+                }
 
                 if (playerTeam.Progress.GetCurrentTask() == null)
                 {
@@ -138,28 +144,39 @@ namespace NiteLigaLibrary
             // STEP 4: Если прошло достаточно времени - сохраняем игру
             // TODO: ...
 
-            // STEP 5: Если прошло достаточно времени - завершаем игру
-            // TODO: ...
+            // STEP 5: Завершение игры
+            // Переводим игру в статус "останавливается", если пришло время конца игры.
+            if (GameStatus == GameStatusType.InProgress &&
+                curTime.Subtract((DateTime)LaunchTime).TotalMinutes > Setting.GameDurationMin)
+                NewEvents.Add(new GameStopped(DateTime.Now));
+
+            // Если после остановки игры прошло необходимое кол-во минут - завершаем игру.
+            if (GameStatus == GameStatusType.Stopped &&
+                EndTime != null && curTime > EndTime?.AddMinutes(Setting.GameClosingDurationMin)) { 
+                GameStatus = GameStatusType.Ended;
+                SendBroadcastMessage("Приём кодов завершён.");
+            }
         }
 
         public void Abort()
         {
-            if (!IsGameStarted)
-                throw new Exception("Нельзя прервать игру, так как она еще не была запущена.");
+            if (GameStatus != GameStatusType.InProgress)
+                throw new Exception("Прервать игру можно только в процессе игры.");
 
             NewEvents.Add(new GameAborted(DateTime.Now));
-            SendBroadcastMessage("Игра прервана организаторами!");
         }
 
         public void Stop()
         {
-            if (!IsGameStarted)
-                throw new Exception("Нельзя остановить игру, так как она еще не была запущена.");
+            if (GameStatus != GameStatusType.InProgress)
+                throw new Exception("Остановить игру можно только в процессе игры.");
             
             NewEvents.Add(new GameStopped(DateTime.Now));
-            SendBroadcastMessage("Игра закончилась!");
         }
 
+        /// <summary>
+        /// Отправляет широковещательное сообщение каждому игроку в игре.
+        /// </summary>
         public void SendBroadcastMessage(string message)
         {
             NewEvents.Add(new AdminSendMessage(DateTime.Now, message));

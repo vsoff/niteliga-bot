@@ -1,6 +1,7 @@
-﻿using System.Data.Entity;
+﻿using NiteLigaLibrary.Database.Models;
+using System.Data.Entity;
 
-namespace NiteLigaLibrary.Database.Models
+namespace NiteLigaLibrary.Database
 {
     public class NiteLigaContext : DbContext
     {

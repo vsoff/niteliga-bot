@@ -8,53 +8,53 @@
         /// <summary>
         /// Игра началась.
         /// </summary>
-        GameStarted,
+        GameStarted = 0,
         /// <summary>
         /// Игра прервана.
         /// </summary>
-        GameAborted,
+        GameAborted = 1,
         /// <summary>
         /// Игра закончена.
         /// </summary>
-        GameStopped,
+        GameStopped = 2,
         /// <summary>
         /// Игра восстановлена (после перезапуска сервера).
         /// </summary>
-        GameRestored,
+        GameRestored = 3,
         /// <summary>
         /// Игра сохранена.
         /// </summary>
-        GameSaved,
+        GameSaved = 4,
 
         /// <summary>
         /// Игрок сдаёт задание правильно.
         /// </summary>
-        PlayerCompletedTask,
+        PlayerCompletedTask = 5,
         /// <summary>
         /// Игрок сдаёт задание неправильно.
         /// </summary>
-        PlayerFailedTask,
+        PlayerFailedTask = 6,
 
         /// <summary>
         /// Команда начинает играть.
         /// </summary>
-        TeamStartsPlay,
+        TeamStartsPlay = 7,
         /// <summary>
         /// Команда получает подсказку (слив).
         /// </summary>
-        TeamGetHint,
+        TeamGetHint = 8,
         /// <summary>
         /// Команда получает адрес (слив).
         /// </summary>
-        TeamGetAddress,
+        TeamGetAddress = 9,
         /// <summary>
         /// Команда сливает задание.
         /// </summary>
-        TeamDropTask,
+        TeamDropTask = 10,
 
         /// <summary>
         /// Система или организатор отправил широковещательное сообщение.
         /// </summary>
-        AdminSendMessage,
+        AdminSendMessage = 11,
     }
 }

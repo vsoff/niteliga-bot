@@ -16,7 +16,11 @@ namespace NiteLigaLibrary.Events
 
         public override void Run(GameManager gm)
         {
-
+            if (gm.GameStatus == Classes.GameStatusType.InProgress)
+            {
+                gm.GameStatus = Classes.GameStatusType.Aborted;
+                gm.SendBroadcastMessage("Игра прервана организаторами!");
+            }
         }
     }
 }

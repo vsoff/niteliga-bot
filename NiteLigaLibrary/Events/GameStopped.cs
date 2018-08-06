@@ -16,7 +16,12 @@ namespace NiteLigaLibrary.Events
 
         public override void Run(GameManager gm)
         {
-
+            if (gm.GameStatus == Classes.GameStatusType.InProgress)
+            {
+                gm.GameStatus = Classes.GameStatusType.Stopped;
+                gm.EndTime = AddDate;
+                gm.SendBroadcastMessage("Игра закончена, возвращайтесь на место сбора.");
+            }
         }
     }
 }

@@ -54,6 +54,7 @@
     <Compile Include="Classes\GameConfig.cs" />
     <Compile Include="Classes\GameConfigModel.cs" />
     <Compile Include="Classes\GameSetting.cs" />
+    <Compile Include="Classes\GameStatusType.cs" />
     <Compile Include="Classes\GameTask.cs" />
     <Compile Include="Classes\LocalPlayer.cs" />
     <Compile Include="Classes\LocalTeam.cs" />
@@ -76,7 +77,7 @@
     <Compile Include="GameManager.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Database\Models\Game.cs" />
-    <Compile Include="Database\Models\NiteLigaContext.cs" />
+    <Compile Include="Database\NiteLigaContext.cs" />
     <Compile Include="Database\Models\Player.cs" />
     <Compile Include="Database\Models\PlayerInTeam.cs" />
     <Compile Include="Database\Models\StoredGame.cs" />

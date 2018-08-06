@@ -5,14 +5,14 @@ namespace NiteLigaLibrary.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<NiteLigaLibrary.Database.Models.NiteLigaContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<NiteLigaLibrary.Database.NiteLigaContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(NiteLigaLibrary.Database.Models.NiteLigaContext context)
+        protected override void Seed(NiteLigaLibrary.Database.NiteLigaContext context)
         {
             //  This method will be called after migrating to the latest version.
 
