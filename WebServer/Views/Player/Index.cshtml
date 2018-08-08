@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    string fullName = $"{@ViewBag.FirstName} {@ViewBag.LastName}";
+    string vkLink = "https://vk.com/id" + ViewBag.VkId;
+    ViewBag.Title = fullName;
+}
+@{  }
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+@if (ViewBag.IsUserExists)
+{
+    <p>VkontakteId: <a href="@vkLink">@ViewBag.VkId</a></p>
+}
+else
+{
+    <b>Напишите боту сообщение <i>/reg</i></b>
+}
