@@ -75,29 +75,29 @@ namespace WebServer.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Manage/RemoveLogin
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
-        {
-            ManageMessageId? message;
-            var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
-            if (result.Succeeded)
-            {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                message = ManageMessageId.RemoveLoginSuccess;
-            }
-            else
-            {
-                message = ManageMessageId.Error;
-            }
-            return RedirectToAction("ManageLogins", new { Message = message });
-        }
+        ////
+        //// POST: /Manage/RemoveLogin
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
+        //{
+        //    ManageMessageId? message;
+        //    var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+        //    if (result.Succeeded)
+        //    {
+        //        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //        if (user != null)
+        //        {
+        //            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //        }
+        //        message = ManageMessageId.RemoveLoginSuccess;
+        //    }
+        //    else
+        //    {
+        //        message = ManageMessageId.Error;
+        //    }
+        //    return RedirectToAction("ManageLogins", new { Message = message });
+        //}
 
         //
         // GET: /Manage/AddPhoneNumber
@@ -213,68 +213,68 @@ namespace WebServer.Controllers
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
 
-        //
-        // GET: /Manage/ChangePassword
-        public ActionResult ChangePassword()
-        {
-            return View();
-        }
+        ////
+        //// GET: /Manage/ChangePassword
+        //public ActionResult ChangePassword()
+        //{
+        //    return View();
+        //}
 
-        //
-        // POST: /Manage/ChangePassword
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-            if (result.Succeeded)
-            {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
-            }
-            AddErrors(result);
-            return View(model);
-        }
+        ////
+        //// POST: /Manage/ChangePassword
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+        //    if (result.Succeeded)
+        //    {
+        //        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //        if (user != null)
+        //        {
+        //            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //        }
+        //        return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+        //    }
+        //    AddErrors(result);
+        //    return View(model);
+        //}
 
-        //
-        // GET: /Manage/SetPassword
-        public ActionResult SetPassword()
-        {
-            return View();
-        }
+        ////
+        //// GET: /Manage/SetPassword
+        //public ActionResult SetPassword()
+        //{
+        //    return View();
+        //}
 
-        //
-        // POST: /Manage/SetPassword
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-                if (result.Succeeded)
-                {
-                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                    if (user != null)
-                    {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    }
-                    return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
-                }
-                AddErrors(result);
-            }
+        ////
+        //// POST: /Manage/SetPassword
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+        //        if (result.Succeeded)
+        //        {
+        //            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //            if (user != null)
+        //            {
+        //                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //            }
+        //            return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+        //        }
+        //        AddErrors(result);
+        //    }
 
-            // Это сообщение означает наличие ошибки; повторное отображение формы
-            return View(model);
-        }
+        //    // Это сообщение означает наличие ошибки; повторное отображение формы
+        //    return View(model);
+        //}
 
         //
         // GET: /Manage/ManageLogins

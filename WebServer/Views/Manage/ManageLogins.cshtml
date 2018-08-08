@@ -28,8 +28,8 @@
                     {
                         <tr>
                             <td>@account.LoginProvider</td>
-                            <td>
-                                @if (ViewBag.ShowRemoveButton)
+                            @*<td>
+                                @if (!ViewBag.ShowRemoveButton)
                                 {
                                     using (Html.BeginForm("RemoveLogin", "Manage"))
                                     {
@@ -45,7 +45,7 @@
                                 {
                                     @: &nbsp;
                                 }
-                            </td>
+                            </td>*@
                         </tr>
                     }
                 </tbody>
