@@ -23,7 +23,6 @@ namespace NiteLigaLibrary.Classes
             this.Id = player.Id;
             this.TeamId = teamId;
             this.VkId = player.VkId;
-            this.TelegramId = player.TelegramId;
             this.FirstName = player.FirstName;
             this.LastName = player.LastName;
         }

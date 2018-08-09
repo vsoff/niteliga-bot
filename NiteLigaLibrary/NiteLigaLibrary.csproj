@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -75,7 +76,6 @@
     <Compile Include="Events\TeamGetHint.cs" />
     <Compile Include="Events\TeamStartsPlay.cs" />
     <Compile Include="GameManager.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Database\Models\Game.cs" />
     <Compile Include="Database\NiteLigaContext.cs" />
     <Compile Include="Database\Models\Player.cs" />
@@ -83,6 +83,7 @@
     <Compile Include="Database\Models\StoredGame.cs" />
     <Compile Include="Database\Models\Team.cs" />
     <Compile Include="MessageManager.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

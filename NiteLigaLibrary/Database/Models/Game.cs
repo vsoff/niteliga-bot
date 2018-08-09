@@ -15,7 +15,8 @@ namespace NiteLigaLibrary.Database.Models
         public long Id { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string Teams { get; set; }
+        public string Setting { get; set; }
+        public string Log { get; set; }
 
         [ForeignKey("StoredGame")]
         public long StoredGameId { get; set; }
