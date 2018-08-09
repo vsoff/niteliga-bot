@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    string fullName = null,
+        vkLink = null;
+    if (@ViewBag.Player != null)
+    {
+        fullName = $"{@ViewBag.Player.FirstName} {@ViewBag.Player.LastName}";
+        vkLink = "https://vk.com/id" + ViewBag.Player.VkId;
+        ViewBag.Title = fullName;
+    } else
+    {
+        ViewBag.Title = "Пользователь не найден";
+    }
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (@ViewBag.Player != null)
+{
+    <p><img class="user-avatar" src="@ViewBag.Player.Photo200" width="200" height="200"/></p>
+    <p>VkontakteId: <a href="@vkLink">@ViewBag.Player.VkId</a></p>
+}
+else
+{
+    <i>Страница удалена или ещё не создана.</i>
+}

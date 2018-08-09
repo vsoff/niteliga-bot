@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = (@ViewBag.Team != null) ? @ViewBag.Team.Name : "Команда не найдена";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (@ViewBag.Team != null)
+{
+    <p><b>Идентификатор:</b> @ViewBag.Team.Id</p>
+    <p><b>Дата регистрации:</b>  @ViewBag.Team.RegistrationDate</p>
+    <p>
+        <b>Участники:</b>
+        @if (@ViewBag.Players.Count == 0)
+        {
+            <i>Нету ни одного участника</i>
+        }
+        else
+        {
+            <ul>
+                @foreach (var a in @ViewBag.Players)
+                {
+                    <li><img class="user-avatar" src="@a.Photo50" width="50" height="50" /> @a.FirstName @a.LastName</li>
+                }
+            </ul>
+        }
+    </p>
+}
+else
+{
+    <b>Такой команды не существует.</b>
+}

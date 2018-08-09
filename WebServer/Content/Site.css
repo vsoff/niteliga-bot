@@ -36,3 +36,8 @@ textarea {
         background: #7b95b1;
         border: 1px solid #a6c6e8;
     }
+
+.user-avatar {
+    background: url(https://vk.com/images/camera_200.png);
+    background-size: 100%;
+}
