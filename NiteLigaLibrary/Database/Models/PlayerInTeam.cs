@@ -8,11 +8,25 @@ using System.Threading.Tasks;
 
 namespace NiteLigaLibrary.Database.Models
 {
+    public enum PlayerInTeamStatus
+    {
+        Captain = 0,
+        Player = 1,
+        Legionary = 2,
+        Invited = 3,
+        Requested = 4
+    }
+
     public class PlayerInTeam
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+        public DateTime JoinDate { get; set; }
+        public DateTime? LeaveDate { get; set; }
+
+        [Range(0, 4)]
+        public PlayerInTeamStatus Status { get; set; }
 
         [ForeignKey("Player")]
         public int PlayerId { get; set; }

@@ -21,24 +21,19 @@ namespace TestingApp
         public Form1()
         {
             InitializeComponent();
-
-            //Enable-Migrations -Force   -ConnectionString "data source=DESKTOP-10P39AB;initial catalog=NiteLiga;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" -ConnectionProviderName "System.Data.SqlClient" -Verbose
-            //Add-Migration Version_Name -ConnectionString "data source=DESKTOP-10P39AB;initial catalog=NiteLiga;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" -ConnectionProviderName "System.Data.SqlClient" -Verbose
-            //Update-Database            -ConnectionString "data source=DESKTOP-10P39AB;initial catalog=NiteLiga;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" -ConnectionProviderName "System.Data.SqlClient" -Verbose
-
-            NiteLigaContext.ConnectionString = "data source=DESKTOP-10P39AB;initial catalog=NiteLiga;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
         }
 
         private GameManager gm;
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<int> teams = null;
+            List<int> teamIds = null;
             List<long> playerVkIds = null;
             using (var db = new NiteLigaContext())
             {
-                teams = db.Teams.Take(3).Select(x => x.Id).ToList();
-                playerVkIds = db.Players.Where(x => x.VkId != null).Select(x => (long)x.VkId).ToList();
+                var teams = db.Teams.Take(3);
+                teamIds = teams.Select(x => x.Id).ToList();
+                playerVkIds = db.Players.Where(x => teamIds.Contains(x.PlayersInTeams.First().TeamId)).Select(x => x.VkId).ToList();
             }
 
             comboBox1.Items.Clear();
@@ -54,7 +49,7 @@ namespace TestingApp
                 Hint1DelaySec = 20,
                 Hint2DelaySec = 20,
                 TaskDropDelaySec = 10,
-                TeamIds = teams
+                TeamIds = teamIds
             };
             gm = new GameManager(config, setting);
             gm.Start();

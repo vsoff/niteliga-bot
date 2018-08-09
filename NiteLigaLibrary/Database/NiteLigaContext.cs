@@ -1,4 +1,5 @@
 ﻿using NiteLigaLibrary.Database.Models;
+using System.Configuration;
 using System.Data.Entity;
 
 namespace NiteLigaLibrary.Database
@@ -6,20 +7,16 @@ namespace NiteLigaLibrary.Database
     public class NiteLigaContext : DbContext
     {
         /*
-         [[Updating]]
-         Enable-Migrations -Force   -ConnectionString "data source=DESKTOP-10P39AB;initial catalog=NiteLiga;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" -ConnectionProviderName "System.Data.SqlClient" -Verbose
-         Add-Migration Version_Name -ConnectionString "data source=DESKTOP-10P39AB;initial catalog=NiteLiga;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" -ConnectionProviderName "System.Data.SqlClient" -Verbose
-         Update-Database            -ConnectionString "data source=DESKTOP-10P39AB;initial catalog=NiteLiga;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" -ConnectionProviderName "System.Data.SqlClient" -Verbose
-        
-         // ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString
-
+                [[Updating]]
+                 Enable-Migrations -Force   -Verbose
+                 Add-Migration Version_Name -Verbose
+                 Update-Database            -Verbose
          */
 
-        public static string ConnectionString = "";
+        public static string ConnectionString = null;
         
-        public NiteLigaContext() : base(ConnectionString)
+        public NiteLigaContext() : base(ConnectionString ?? "DefaultConnection")
         {
-
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
