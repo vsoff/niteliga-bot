@@ -286,6 +286,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Social\Player.cshtml" />
     <Content Include="Views\Social\Team.cshtml" />
+    <Content Include="Views\Social\TeamList.cshtml" />
+    <Content Include="Views\Social\PlayerList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

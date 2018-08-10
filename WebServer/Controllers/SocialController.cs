@@ -50,5 +50,47 @@ namespace WebServer.Controllers
 
             return View();
         }
+
+        private const int ROWSATPAGE = 20;
+
+        public ActionResult TeamList(int id = 1)
+        {
+            int pageIndex = Math.Max(id, 1);
+            List<Team> teams = null;
+            int teamsCount;
+
+            using (var db = new NiteLigaContext())
+            {
+                teams = db.Teams.OrderBy(x => x.Id).Skip((pageIndex - 1) * ROWSATPAGE).Take(ROWSATPAGE).ToList();
+                teamsCount = db.Teams.Count();
+            }
+
+            ViewBag.Teams = teams;
+            ViewBag.TeamsCount = teamsCount;
+            ViewBag.PageCount = (int)((double)teamsCount / ROWSATPAGE) + 1;
+            ViewBag.PageIndex = pageIndex;
+
+            return View();
+        }
+
+        public ActionResult PlayerList(int id = 1)
+        {
+            int pageIndex = Math.Max(id, 1);
+            List<Player> players = null;
+            int playersCount;
+
+            using (var db = new NiteLigaContext())
+            {
+                players = db.Players.OrderBy(x => x.Id).Skip((pageIndex - 1) * ROWSATPAGE).Take(ROWSATPAGE).ToList();
+                playersCount = db.Players.Count();
+            }
+
+            ViewBag.Players = players;
+            ViewBag.PlayersCount = playersCount;
+            ViewBag.PageCount = (int)((double)playersCount / ROWSATPAGE) + 1;
+            ViewBag.PageIndex = pageIndex;
+
+            return View();
+        }
     }
 }

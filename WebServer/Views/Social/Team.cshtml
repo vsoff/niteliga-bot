@@ -19,7 +19,8 @@
             <ul>
                 @foreach (var a in @ViewBag.Players)
                 {
-                    <li><img class="user-avatar" src="@a.Photo50" width="50" height="50" /> @a.FirstName @a.LastName</li>
+                    var vkLink = "/Player/" + a.Id;
+                    <li><a href="@vkLink"><img class="user-avatar" src="@a.Photo50" width="50" height="50" /> @a.FirstName @a.LastName</a></li>
                 }
             </ul>
         }

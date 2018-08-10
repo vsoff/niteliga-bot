@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Список команд";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>Всего команд в системе: @ViewBag.TeamsCount</p>
+<table border="1">
+    <thead>
+        <tr>
+            <td>Ид</td>
+            <td>Название</td>
+            <td>Дата регистрации</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in @ViewBag.Teams)
+        {
+            var vkLink = "/Team/" + a.Id;
+            <tr>
+                <td>@a.Id</td>
+                <td><a href="@vkLink">@a.Name</a></td>
+                <td>@a.RegistrationDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p>@ViewBag.PageIndex / @ViewBag.PageCount</p>

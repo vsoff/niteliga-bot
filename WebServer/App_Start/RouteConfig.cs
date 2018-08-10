@@ -14,9 +14,27 @@ namespace WebServer
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "Social",
-                "Social/{action}/{id}",
-                new { action = "Index", controller = "Social", id = UrlParameter.Optional }
+                "Player",
+                "Player/{id}",
+                new { action = "Player", controller = "Social", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                "Team",
+                "Team/{id}",
+                new { action = "Team", controller = "Social" }
+            );
+
+            routes.MapRoute(
+                "TeamList",
+                "TeamList/{id}",
+                new { action = "TeamList", controller = "Social", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                "PlayerList",
+                "PlayerList/{id}",
+                new { action = "PlayerList", controller = "Social", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

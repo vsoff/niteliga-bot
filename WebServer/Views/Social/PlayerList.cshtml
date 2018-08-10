@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Список игроков";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>Всего игроков в системе: @ViewBag.PlayersCount</p>
+<table border="1">
+    <thead>
+        <tr>
+            <td>Ид</td>
+            <td>Имя</td>
+            <td>Вконтакте</td>
+            <td>Дата регистрации</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in @ViewBag.Players)
+        {
+            var vkId = "id" + a.VkId;
+            var vkLink = "https://vk.com/" + vkId;
+            var localLink = "/Player/" + a.Id;
+        <tr>
+            <td>@a.Id</td>
+            <td><a href="@localLink">@a.FirstName @a.LastName</a></td>
+            <td><a href="@vkLink">@vkId</a></td>
+            <td>@*@a.RegistrationDate*@NODATA</td>
+        </tr>
+        }
+    </tbody>
+</table>
+<p>@ViewBag.PageIndex / @ViewBag.PageCount</p>
