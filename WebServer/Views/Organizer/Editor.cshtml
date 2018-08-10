@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Редактор игры";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>
+    <a href="/Organizer/Games"><< вернуться к списку игр</a>
+</p>
+@if (ViewBag.Game != null)
+{
+    <p><b>Ид:</b> @ViewBag.Game.Id</p>
+    <p><b>Дата создания:</b> @ViewBag.Game.CreateDate</p>
+    <p>
+        <b>Описание:</b>
+    </p>
+    <p>
+        <input class="form-control" id="game-editor-caption" value="@ViewBag.Game.Caption" />
+    </p>
+    <p>
+        <b>JSON:</b>
+    </p>
+    <p>
+        <textarea class="form-control" id="game-editor-json">@ViewBag.Game.JSON</textarea>
+    </p>
+    <button onclick="saveGame(@ViewBag.Game.Id)" class="btn btn-default">Сохранить</button>
+}
+
+
+@Scripts.Render("~/js/editor.js")

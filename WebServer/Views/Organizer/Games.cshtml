@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Список созданных игр";
+}
+
+<h2>@ViewBag.Title</h2>
+<table border="1" style="width: 100%">
+    <thead>
+        <tr>
+            <td>Ид</td>
+            <td>Дата создания</td>
+            <td>Описание</td>
+            <td>JSON(debug)</td>
+            <td>Управление</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in @ViewBag.Games)
+        {
+            string functionName = $"deleteGame({a.Id})";
+            string editLink = $"/Organizer/Editor/{a.Id}";
+
+            <tr>
+                <td>@a.Id</td>
+                <td>@a.CreateDate</td>
+                <td>@a.Caption</td>
+                <td style="max-width: 300px; height:50px; overflow: scroll; font-family: consolas">@a.JSON</td>
+                <td>
+                    <a href="@editLink" class="btn btn-default">Редактировать</a>
+                    <button name="@a.Id" onclick="@functionName" class="btn btn-default">Удалить</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<button onclick="addGame()" class="btn btn-default">Добавить</button>
+
+@Scripts.Render("~/js/game-list.js")
