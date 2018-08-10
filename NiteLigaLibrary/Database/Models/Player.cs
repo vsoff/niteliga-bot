@@ -17,6 +17,7 @@ namespace NiteLigaLibrary.Database.Models
         public string LastName { get; set; }
         public string Photo50 { get; set; }
         public string Photo200 { get; set; }
+        public DateTime RegistrationDate { get; set; }
 
         public virtual ICollection<PlayerInTeam> PlayersInTeams { get; set; }
     }

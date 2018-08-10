@@ -21,9 +21,9 @@
             var localLink = "/Player/" + a.Id;
         <tr>
             <td>@a.Id</td>
-            <td><a href="@localLink">@a.FirstName @a.LastName</a></td>
+            <td><a href="@localLink"><img class="user-avatar" src="@a.Photo50" width="30" height="30"/> @a.FirstName @a.LastName</a></td>
             <td><a href="@vkLink">@vkId</a></td>
-            <td>@*@a.RegistrationDate*@NODATA</td>
+            <td>@a.RegistrationDate</td>
         </tr>
         }
     </tbody>

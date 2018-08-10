@@ -21,15 +21,15 @@
             <li>Редактор игр</li>
             <li>История игр</li>
             <li>Запуск игр</li>
-            <li>Турнирная таблица</li>
         </ul>
     }
     @if (User.IsInRole("admin") || User.IsInRole("organizer")) {
-        <i>Пользователь:</i>
+        <i>Игрок:</i>
     }
         <ul>
             <li><a href="@Url.Action("Player", "Social")">Мой профиль</a></li>
-            <li><a href="@Url.Action("TeamList", "Social")">Список команд</a></li>
+            <li><a href="@Url.Action("TeamList", "Social" )">Список команд</a></li>
+            <li><a href="@Url.Action("PlayerList", "Social")">Список игроков</a></li>
         </ul>
 </div>
 }
