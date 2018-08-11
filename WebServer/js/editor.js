@@ -6,12 +6,20 @@
         return;
     }
 
+    try {
+        JSON.parse($('#game-editor-setting')[0].value);
+    } catch {
+        alert('Setting неверного формата!');
+        return;
+    }
+
     $.ajax({
         type: 'POST',
-        url: '/api/Game/' + id,
+        url: '/api/Game/' + id + '/Update',
         data: {
             Caption: $('#game-editor-caption')[0].value,
-            JSON: $('#game-editor-json')[0].value
+            JSON: $('#game-editor-json')[0].value,
+            Setting: $('#game-editor-setting')[0].value
         }
     }).done(res => {
         console.log('done', res);

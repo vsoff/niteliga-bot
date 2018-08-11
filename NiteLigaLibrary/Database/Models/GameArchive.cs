@@ -18,8 +18,8 @@ namespace NiteLigaLibrary.Database.Models
         public DateTime? EndDate { get; set; }
         public string Log { get; set; }
 
-        [ForeignKey("StoredGame")]
-        public long StoredGameId { get; set; }
-        public virtual GameProject StoredGame { get; set; }
+        [ForeignKey("GameProject")]
+        public long GameProjectId { get; set; }
+        public virtual GameProject GameProject { get; set; }
     }
 }

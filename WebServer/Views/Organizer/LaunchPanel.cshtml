@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Запуск игры";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<select>
+    @foreach (var a in @ViewBag.Games)
+    {
+        <option value="@a.Id">@a.Caption</option>
+    }
+</select>
+
+<button onclick="addGame()" class="btn btn-default">Запустить игру</button>
+
+@*@Scripts.Render("~/js/game-list.js")*@

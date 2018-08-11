@@ -17,10 +17,16 @@
         <input class="form-control" id="game-editor-caption" value="@ViewBag.Game.Caption" />
     </p>
     <p>
-        <b>JSON:</b>
+        <b>Config:</b>
     </p>
     <p>
-        <textarea class="form-control" id="game-editor-json">@ViewBag.Game.JSON</textarea>
+        <textarea class="form-control" id="game-editor-json">@ViewBag.Game.Config</textarea>
+    </p>
+    <p>
+        <b>Setting:</b>
+    </p>
+    <p>
+        <textarea class="form-control" id="game-editor-setting">@ViewBag.Game.Setting</textarea>
     </p>
     <button onclick="saveGame(@ViewBag.Game.Id)" class="btn btn-default">Сохранить</button>
 }

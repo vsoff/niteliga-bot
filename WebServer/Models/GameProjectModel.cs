@@ -8,6 +8,7 @@ namespace WebServer.Models
     public class GameProjectModel
     {
         public string Caption { get; set; }
+        public string Setting { get; set; }
         public string JSON { get; set; }
     }
 }

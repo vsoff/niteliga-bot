@@ -38,5 +38,18 @@ namespace WebServer.Controllers
 
             return View();
         }
+
+        // GET: Organizer/LaunchPanel
+        public ActionResult LaunchPanel()
+        {
+            List<GameProject> games;
+
+            using (var db = new NiteLigaContext())
+                games = db.GameProjects.Where(x => x.GameArchives.FirstOrDefault(y => y.IsTestRun == false) == null).ToList();
+
+            ViewBag.Games = games;
+
+            return View();
+        }
     }
 }

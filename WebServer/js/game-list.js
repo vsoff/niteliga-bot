@@ -21,3 +21,19 @@ function addGame() {
         console.log('err', err);
     });
 }
+
+function verifyGame(id) {
+    $.ajax({
+        type: 'POST',
+        url: '/api/Game/' + id + '/Verify'
+    }).done(res => {
+        console.log('done', res);
+        if (!res.errorList)
+            alert('Игра полностью соответствует шаблону!');
+        else
+            alert('Ошибка: ' + res.error + '\nПеречень ошибок: ' + JSON.stringify(res.errorList))
+    }).fail(err => {
+        console.log('err', err);
+    });
+}
+

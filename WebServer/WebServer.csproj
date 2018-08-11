@@ -223,7 +223,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\StoredGameModel.cs" />
+    <Compile Include="Models\GameProjectModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -295,6 +295,7 @@
     <Content Include="Views\Social\PlayerList.cshtml" />
     <Content Include="Views\Organizer\Games.cshtml" />
     <Content Include="Views\Organizer\Editor.cshtml" />
+    <Content Include="Views\Organizer\LaunchPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

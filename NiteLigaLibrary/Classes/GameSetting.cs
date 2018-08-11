@@ -18,9 +18,32 @@ namespace NiteLigaLibrary.Classes
         public int SecondsDelayStart { get; set; }
         public List<int> TeamIds { get; set; }
 
-        public GameSetting()
+        public bool Verify(out List<string> errors)
         {
-            // Тут происходит подгрузка настроек из БД
+            errors = new List<string>();
+
+            if (GameDurationMin < 1)
+                errors.Add("Длительность игры должна быть дольше 1 минуты");
+
+            if (GameClosingDurationMin < 1)
+                errors.Add("Длительность завершения игры должна быть больше 1 минуты");
+
+            if (Hint1DelaySec < 15)
+                errors.Add("Время до первой подсказки должно быть больше 15 секунд");
+
+            if (Hint2DelaySec < 15)
+                errors.Add("Время до слива адреса должно быть больше 15 секунд");
+
+            if (TaskDropDelaySec < 10)
+                errors.Add("Время до слива задания должно быть больше 10 секунд");
+
+            if (SecondsDelayStart < 5)
+                errors.Add("Время между стартами команд должно быть больше 5 секунд");
+
+            if (TeamIds.Count < 1)
+                errors.Add("В игре должна участвовать как минимум одна команда");
+
+            return errors.Count == 0;
         }
     }
 }
