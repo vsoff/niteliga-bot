@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace NiteLigaLibrary.Database.Models
 {
-    public class Game
+    public class GameArchive
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+        public bool IsTestRun { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string Setting { get; set; }
         public string Log { get; set; }
 
         [ForeignKey("StoredGame")]
         public long StoredGameId { get; set; }
-        public virtual StoredGame StoredGame { get; set; }
+        public virtual GameProject StoredGame { get; set; }
     }
 }

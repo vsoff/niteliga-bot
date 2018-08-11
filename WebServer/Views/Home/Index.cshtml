@@ -19,8 +19,8 @@
         <i>Организатор:</i>
         <ul>
             <li><a href="@Url.Action("Games", "Organizer")">Редактор игр</a></li>
-            <li>История игр</li>
             <li>Запуск игр</li>
+            <li>Архив игр</li>
         </ul>
     }
     @if (User.IsInRole("admin") || User.IsInRole("organizer")) {

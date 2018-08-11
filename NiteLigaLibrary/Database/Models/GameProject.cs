@@ -8,15 +8,16 @@ using System.Web;
 
 namespace NiteLigaLibrary.Database.Models
 {
-    public class StoredGame
+    public class GameProject
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public DateTime CreateDate { get; set; }
         public string Caption { get; set; }
+        public string Setting { get; set; }
         public string JSON { get; set; }
 
-        public virtual ICollection<Game> Games { get; set; }
+        public virtual ICollection<GameArchive> Games { get; set; }
     }
 }

@@ -16,10 +16,10 @@ namespace WebServer.Controllers
         // GET: Organizer/Games
         public ActionResult Games()
         {
-            List<StoredGame> games;
+            List<GameProject> games;
 
             using (var db = new NiteLigaContext())
-                games = db.StoredGames.ToList();
+                games = db.GameProjects.ToList();
 
             ViewBag.Games = games;
 
@@ -29,10 +29,10 @@ namespace WebServer.Controllers
         // GET: Organizer/Editor
         public ActionResult Editor(int id = 0)
         {
-            StoredGame game;
+            GameProject game;
 
             using (var db = new NiteLigaContext())
-                game = db.StoredGames.Single(x => x.Id == id);
+                game = db.GameProjects.Single(x => x.Id == id);
 
             ViewBag.Game = game;
 

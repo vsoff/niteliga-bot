@@ -24,11 +24,11 @@ namespace NiteLigaLibrary.Database
 
         }
 
-        public virtual DbSet<StoredGame> StoredGames { get; set; }
+        public virtual DbSet<GameProject> GameProjects { get; set; }
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
 
-        public virtual DbSet<Game> Games { get; set; }
+        public virtual DbSet<GameArchive> GameArchives { get; set; }
         public virtual DbSet<PlayerInTeam> PlayersInTeams { get; set; }
     }
 }

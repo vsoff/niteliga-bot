@@ -76,11 +76,11 @@
     <Compile Include="Events\TeamGetHint.cs" />
     <Compile Include="Events\TeamStartsPlay.cs" />
     <Compile Include="GameManager.cs" />
-    <Compile Include="Database\Models\Game.cs" />
+    <Compile Include="Database\Models\GameArchive.cs" />
     <Compile Include="Database\NiteLigaContext.cs" />
     <Compile Include="Database\Models\Player.cs" />
     <Compile Include="Database\Models\PlayerInTeam.cs" />
-    <Compile Include="Database\Models\StoredGame.cs" />
+    <Compile Include="Database\Models\GameProject.cs" />
     <Compile Include="Database\Models\Team.cs" />
     <Compile Include="MessageManager.cs" />
     <Compile Include="Migrations\Configuration.cs" />

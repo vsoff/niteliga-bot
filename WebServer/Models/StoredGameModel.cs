@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebServer.Models
 {
-    public class StoredGameModel
+    public class GameProjectModel
     {
         public string Caption { get; set; }
         public string JSON { get; set; }

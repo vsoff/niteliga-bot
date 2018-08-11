@@ -18,11 +18,11 @@ namespace WebServer.Controllers
         {
             try
             {
-                StoredGame newGame;
+                GameProject newGame;
                 DateTime dt = DateTime.Now;
                 using (var db = new NiteLigaContext())
                 {
-                    newGame = db.StoredGames.Add(new StoredGame
+                    newGame = db.GameProjects.Add(new GameProject
                     {
                         CreateDate = dt,
                         Caption = $"Новая игра ({dt.ToShortDateString()})"
@@ -43,10 +43,10 @@ namespace WebServer.Controllers
         {
             try
             {
-                StoredGame game;
+                GameProject game;
                 using (var db = new NiteLigaContext())
                 {
-                    game = db.StoredGames.Single(x => x.Id == id);
+                    game = db.GameProjects.Single(x => x.Id == id);
                 }
                 return game;
             }
@@ -58,14 +58,14 @@ namespace WebServer.Controllers
 
         // POST: api/Game/5
         [HttpPost]
-        public object Update(int id, StoredGameModel model)
+        public object Update(int id, GameProjectModel model)
         {
             try
             {
-                StoredGame game;
+                GameProject game;
                 using (var db = new NiteLigaContext())
                 {
-                    game = db.StoredGames.Single(x => x.Id == id);
+                    game = db.GameProjects.Single(x => x.Id == id);
                     game.Caption = model.Caption;
                     game.JSON = model.JSON;
                     db.SaveChanges();
@@ -84,11 +84,11 @@ namespace WebServer.Controllers
         {
             try
             {
-                StoredGame game;
+                GameProject game;
                 using (var db = new NiteLigaContext())
                 {
-                    game = db.StoredGames.Single(x => x.Id == id);
-                    db.StoredGames.Remove(game);
+                    game = db.GameProjects.Single(x => x.Id == id);
+                    db.GameProjects.Remove(game);
                     db.SaveChanges();
                 }
                 return new { data = game, message = "Game deleted successfully" };
