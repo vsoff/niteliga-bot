@@ -8,8 +8,12 @@ namespace WebServer.Controllers
 {
     public class HomeController : Controller
     {
+        public static DateTime ServerStartupTime { get; } = DateTime.Now;
+
         public ActionResult Index()
         {
+            ViewBag.ServerStartupTime = ServerStartupTime;
+
             return View();
         }
 

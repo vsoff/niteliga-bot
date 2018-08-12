@@ -23,6 +23,16 @@ namespace NiteLigaLibrary.Database.Models
 
         public virtual ICollection<GameArchive> GameArchives { get; set; }
 
+        public GameConfig GetConfig()
+        {
+            return new GameConfig(this.Config);
+        }
+
+        public GameSetting GetSetting()
+        {
+            return JsonConvert.DeserializeObject<GameSetting>(this.Setting);
+        }
+
         /// <summary>
         /// Проверяет правильность данных содержащихся в полях Caption и Config
         /// </summary>

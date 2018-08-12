@@ -68,7 +68,8 @@ namespace NiteLigaLibrary
             int eventsCount = NewEvents.Count;
 
             // STEP 1: Обрабатываем все ивенты (если они есть)
-            if (eventsCount > 0) {
+            if (eventsCount > 0)
+            {
                 // Получаем список ивентов, обрабатываемый на текущей итерации
                 List<GameEvent> processedEvents = NewEvents.GetRange(0, eventsCount).OrderBy(x => x.AddDate).ToList();
                 NewEvents.RemoveRange(0, eventsCount);
@@ -142,7 +143,7 @@ namespace NiteLigaLibrary
             }
 
             // STEP 4: Если прошло достаточно времени - сохраняем игру
-            // TODO: ...
+            // TODO: ... 
 
             // STEP 5: Завершение игры
             // Переводим игру в статус "останавливается", если пришло время конца игры.
@@ -152,7 +153,8 @@ namespace NiteLigaLibrary
 
             // Если после остановки игры прошло необходимое кол-во минут - завершаем игру.
             if (GameStatus == GameStatusType.Stopped &&
-                EndTime != null && curTime > EndTime?.AddMinutes(Setting.GameClosingDurationMin)) { 
+                EndTime != null && curTime > EndTime?.AddMinutes(Setting.GameClosingDurationMin))
+            {
                 GameStatus = GameStatusType.Ended;
                 SendBroadcastMessage("Приём кодов завершён.");
             }
@@ -170,7 +172,7 @@ namespace NiteLigaLibrary
         {
             if (GameStatus != GameStatusType.InProgress)
                 throw new Exception("Остановить игру можно только в процессе игры.");
-            
+
             NewEvents.Add(new GameStopped(DateTime.Now));
         }
 
@@ -189,7 +191,13 @@ namespace NiteLigaLibrary
             Noticer.AddOutputMessages(allPlayers, message);
         }
 
-        public void Save()
+        public object GetLastBackup()
+        {
+            // TODO: Возвращает актуальный экземпляр бекапа игры.
+            throw new NotImplementedException();
+        }
+
+        private void Save()
         {
             // TODO: Добавление события "игра сохранена".
             // TODO: Полное сохранение игры на данный момент.

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NiteLigaLibrary;
 using NiteLigaLibrary.Classes;
 using NiteLigaLibrary.Database;
 using NiteLigaLibrary.Database.Models;
@@ -8,10 +9,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebServer.Classes;
 using WebServer.Models;
 
 namespace WebServer.Controllers
 {
+    //[Authorize(Roles = "organizer")]
     public class GameController : ApiController
     {
         // POST: api/Game
@@ -164,5 +167,23 @@ namespace WebServer.Controllers
                 return new { error = "An error occurred while deleting the Game" };
             }
         }
+
+        #region Управление игрой
+        // POST: api/Game/5/Start
+        [HttpPost]
+        public object Start(int id)
+        {
+            try
+            {
+                ServerGamesManager.StartGame(id);
+                return new { message = "Game started successfully" };
+            }
+            catch (Exception ex)
+            {
+                return new { error = $"Error. {ex.Message}" };
+            }
+        }
+
+        #endregion
     }
 }

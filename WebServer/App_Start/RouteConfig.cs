@@ -14,6 +14,16 @@ namespace WebServer
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //<===============>
+            //<===== API =====>
+            //<===============>
+
+            routes.MapHttpRoute(
+                "GameStart",
+                "api/Game/{id}/Start",
+                new { action = "Start", controller = "Game" }
+            );
+
             routes.MapHttpRoute(
                 "GameUpdate",
                 "api/Game/{id}/Update",
@@ -25,6 +35,10 @@ namespace WebServer
                 "api/Game/{id}/Verify",
                 new { action = "Verify", controller = "Game" }
             );
+
+            // <===============>
+            // <==== Views ====>
+            // <===============>
 
             routes.MapRoute(
                 "Player",

@@ -9,6 +9,7 @@
     <h2>Меню</h2>
     @if (User.IsInRole("admin"))
     {
+    <p>Server started at <b>@ViewBag.ServerStartupTime</b></p>
         <i>Администратор:</i>
         <ul>
             <li>Управление организаторами</li>
