@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\BackupModels.cs" />
     <Compile Include="Classes\GameConfig.cs" />
     <Compile Include="Classes\GameConfigModel.cs" />
     <Compile Include="Classes\GameSetting.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Classes\Message.cs" />
     <Compile Include="Classes\TeamGameProgress.cs" />
     <Compile Include="Events\AdminSendMessage.cs" />
+    <Compile Include="Classes\BackupConverter.cs" />
     <Compile Include="Events\GameAborted.cs" />
     <Compile Include="Events\GameEvent.cs" />
     <Compile Include="Events\GameEventType.cs" />

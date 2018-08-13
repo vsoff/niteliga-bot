@@ -175,7 +175,11 @@ namespace WebServer.Controllers
         {
             try
             {
-                ServerGamesManager.StartGame(id);
+                // TODO: Надо запускать игры по gameArchiveId а не по gameProjectId
+                // Вероятнее всего надо сделать отдельный api контроллер для работы с GameArchive
+                // Будет формироваться PreparedGame, который в свою очередь уже можно будет запускать
+                // ... надо обдумать
+                ServerGamesManager.StartGame(id, false);
                 return new { message = "Game started successfully" };
             }
             catch (Exception ex)

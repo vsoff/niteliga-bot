@@ -6,9 +6,13 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using Newtonsoft.Json;
+using NiteLigaLibrary.Classes;
 using NiteLigaLibrary.Database;
+using NiteLigaLibrary.Events;
 using Owin;
 using Owin.Security.Providers.VKontakte;
+using WebServer.Classes;
 using WebServer.Models;
 
 namespace WebServer
@@ -19,7 +23,8 @@ namespace WebServer
         public void ConfigureAuth(IAppBuilder app)
         {
             NiteLigaContext.ConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
+            ServerGamesManager.Initialize();
+            
             // Настройка контекста базы данных, диспетчера пользователей и диспетчера входа для использования одного экземпляра на запрос
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);

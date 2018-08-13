@@ -42,12 +42,17 @@ namespace WebServer.Controllers
         // GET: Organizer/LaunchPanel
         public ActionResult LaunchPanel()
         {
-            List<GameProject> games;
+            List<GameProject> gameProjects;
+            List<GameArchive> gameArchives;
 
             using (var db = new NiteLigaContext())
-                games = db.GameProjects.Where(x => x.GameArchives.FirstOrDefault(y => y.IsTestRun == false) == null).ToList();
+            {
+                gameProjects = db.GameProjects.Where(x => x.GameArchives.FirstOrDefault(y => y.IsTestRun == false) == null).ToList();
+                gameArchives = db.GameArchives.ToList();
+            }
 
-            ViewBag.Games = games;
+            ViewBag.GameProjects = gameProjects;
+            ViewBag.GameArchives = gameArchives;
 
             return View();
         }

@@ -5,12 +5,25 @@
 <h2>@ViewBag.Title</h2>
 
 <select id="launchPanelIdSelect">
-    @foreach (var a in @ViewBag.Games)
+    @foreach (var a in @ViewBag.GameProjects)
     {
         <option value="@a.Id">@a.Caption</option>
     }
 </select>
 
 <button onclick="launchGame()" class="btn btn-default">Запустить игру</button>
+
+<ul>
+    @foreach (var a in @ViewBag.GameArchives)
+    {
+        <li>
+            <p>@a.Id</p>
+            <p>@a.IsTestRun</p>
+            <p>@a.StartDate</p>
+            <p>@a.EndDate</p>
+            <p><textarea class="form-control" style="width: 100%; min-height: 200px;">@a.Log</textarea></p>
+        </li>
+    }
+</ul>
 
 @Scripts.Render("~/js/launch-panel.js")

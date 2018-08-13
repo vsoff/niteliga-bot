@@ -7,11 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace NiteLigaLibrary
 {
     public class GameManager
     {
+        private object _locker;
+
         private List<GameEvent> NewEvents { get; }
         public List<GameEvent> StoredEvents { get; }
 
@@ -27,6 +30,8 @@ namespace NiteLigaLibrary
 
         public GameManager(GameConfig config, GameSetting setting)
         {
+            this._locker = new object();
+
             this.Setting = setting;
             this.Config = config;
             this.LaunchTime = null;
@@ -61,102 +66,101 @@ namespace NiteLigaLibrary
         {
             if (GameStatus != GameStatusType.InProgress && GameStatus != GameStatusType.Stopped)
                 return;
-
-            // Запоминаем время начала итерации
-            DateTime curTime = DateTime.Now;
-
-            int eventsCount = NewEvents.Count;
-
-            // STEP 1: Обрабатываем все ивенты (если они есть)
-            if (eventsCount > 0)
+            lock (_locker)
             {
-                // Получаем список ивентов, обрабатываемый на текущей итерации
-                List<GameEvent> processedEvents = NewEvents.GetRange(0, eventsCount).OrderBy(x => x.AddDate).ToList();
-                NewEvents.RemoveRange(0, eventsCount);
+                // Запоминаем время начала итерации
+                DateTime curTime = DateTime.Now;
 
-                // Выполняем каждый ивент
-                foreach (GameEvent currentEvent in processedEvents)
-                    currentEvent.Run(this);
+                int eventsCount = NewEvents.Count;
 
-                // Добавляем все обработанные ивенты в список
-                StoredEvents.AddRange(processedEvents);
-            }
-
-            // STEP 2: Добавляем новые ивенты, если прошло необходимое время (подсказка, слив адреса, слив задания)
-            if (GameStatus != GameStatusType.Stopped)
-                foreach (LocalTeam t in Teams)
+                // STEP 1: Обрабатываем все ивенты (если они есть)
+                if (eventsCount > 0)
                 {
-                    // Получение первого задания, если прошло достаточно времени и команда еще не начала играть.
-                    if (t.Progress == null)
+                    // Получаем список ивентов, обрабатываемый на текущей итерации
+                    List<GameEvent> processedEvents = NewEvents.GetRange(0, eventsCount).OrderBy(x => x.AddDate).ToList();
+                    NewEvents.RemoveRange(0, eventsCount);
+
+                    // Выполняем каждый ивент
+                    foreach (GameEvent currentEvent in processedEvents)
+                        currentEvent.Run(this);
+
+                    // Добавляем все обработанные ивенты в список
+                    StoredEvents.AddRange(processedEvents);
+                }
+
+                // STEP 2: Добавляем новые ивенты, если прошло необходимое время (подсказка, слив адреса, слив задания)
+                if (GameStatus != GameStatusType.Stopped)
+                    foreach (LocalTeam t in Teams)
                     {
-                        if (curTime > ((DateTime)LaunchTime).AddSeconds(Setting.SecondsDelayStart * Teams.IndexOf(t)))
-                            NewEvents.Add(new TeamStartsPlay(curTime, t.Id));
+                        // Получение первого задания, если прошло достаточно времени и команда еще не начала играть.
+                        if (t.Progress == null)
+                        {
+                            if (curTime > ((DateTime)LaunchTime).AddSeconds(Setting.SecondsDelayStart * Teams.IndexOf(t)))
+                                NewEvents.Add(new TeamStartsPlay(curTime, t.Id));
+                            continue;
+                        }
+
+                        if (t.Progress.IsAllTaskCompleted())
+                            continue;
+
+                        // Кол-во секунд, прошедшее со сдачи последнего задания
+                        double lastCompleteTaskSec = curTime.Subtract(t.Progress.LastTaskCompleteTime).TotalSeconds;
+                        // Кол-во секунд, прошедшее с получения последней подсказки
+                        double lastHintSec = curTime.Subtract(t.Progress.LastHintTime).TotalSeconds;
+
+                        // ... сливаем задание
+                        if (lastCompleteTaskSec > (Setting.TaskDropDelaySec + Setting.Hint2DelaySec + Setting.Hint1DelaySec))
+                            NewEvents.Add(new TeamDropTask(curTime, t.Id, t.Progress.CurrentTaskIndex));
+                        // ... сливаем адрес
+                        else if (lastCompleteTaskSec > (Setting.Hint2DelaySec + Setting.Hint1DelaySec) && lastHintSec > Setting.Hint2DelaySec)
+                            NewEvents.Add(new TeamGetAddress(curTime, t.Id, t.Progress.CurrentTaskIndex));
+                        // ... сливаем подсказку
+                        else if (lastCompleteTaskSec > (Setting.Hint1DelaySec) && lastHintSec > Setting.Hint1DelaySec)
+                            NewEvents.Add(new TeamGetHint(curTime, t.Id, t.Progress.CurrentTaskIndex));
+                    }
+
+                // STEP 3: Анализируем пришедшие сообщения от пользователей и добавляем новые ивенты
+                List<Message> inputMessages = Noticer.PullInput();
+                foreach (Message m in inputMessages)
+                {
+                    LocalTeam playerTeam = Teams.First(x => x.Id == m.Player.TeamId);
+
+                    if (playerTeam.Progress == null)
+                    {
+                        m.Player.SendMessage(Noticer, $"Ваша команда еще не получила первое задание.");
                         continue;
                     }
 
-                    if (t.Progress.IsAllTaskCompleted())
+                    if (playerTeam.Progress.GetCurrentTask() == null)
+                    {
+                        m.Player.SendMessage(Noticer, $"Ваша команда уже выполнила все задания.");
                         continue;
+                    }
 
-                    // Кол-во секунд, прошедшее со сдачи последнего задания
-                    double lastCompleteTaskSec = curTime.Subtract(t.Progress.LastTaskCompleteTime).TotalSeconds;
-                    // Кол-во секунд, прошедшее с получения последней подсказки
-                    double lastHintSec = curTime.Subtract(t.Progress.LastHintTime).TotalSeconds;
+                    switch (m.Text)
+                    {
+                        case "задание": m.Player.SendMessage(Noticer, $"Какая-то подсказка."); continue;
+                    }
 
-                    // ... сливаем задание
-                    if (lastCompleteTaskSec > (Setting.TaskDropDelaySec + Setting.Hint2DelaySec + Setting.Hint1DelaySec))
-                        NewEvents.Add(new TeamDropTask(curTime, t.Id, t.Progress.CurrentTaskIndex));
-                    // ... сливаем адрес
-                    else if (lastCompleteTaskSec > (Setting.Hint2DelaySec + Setting.Hint1DelaySec) && lastHintSec > Setting.Hint2DelaySec)
-                        NewEvents.Add(new TeamGetAddress(curTime, t.Id, t.Progress.CurrentTaskIndex));
-                    // ... сливаем подсказку
-                    else if (lastCompleteTaskSec > (Setting.Hint1DelaySec) && lastHintSec > Setting.Hint1DelaySec)
-                        NewEvents.Add(new TeamGetHint(curTime, t.Id, t.Progress.CurrentTaskIndex));
+                    if (playerTeam.Progress.GetCurrentTask().Code == m.Text)
+                        NewEvents.Add(new PlayerCompletedTask(curTime, playerTeam.Id, m.Player.Id, playerTeam.Progress.CurrentTaskIndex));
+                    else
+                        NewEvents.Add(new PlayerFailedTask(curTime, playerTeam.Id, m.Player.Id, playerTeam.Progress.CurrentTaskIndex));
                 }
 
-            // STEP 3: Анализируем пришедшие сообщения от пользователей и добавляем новые ивенты
-            List<Message> inputMessages = Noticer.PullInput();
-            foreach (Message m in inputMessages)
-            {
-                LocalTeam playerTeam = Teams.First(x => x.Id == m.Player.TeamId);
+                // STEP 4: Завершение игры
+                // Переводим игру в статус "останавливается", если пришло время конца игры.
+                if (GameStatus == GameStatusType.InProgress &&
+                    curTime.Subtract((DateTime)LaunchTime).TotalMinutes > Setting.GameDurationMin)
+                    NewEvents.Add(new GameStopped(DateTime.Now));
 
-                if (playerTeam.Progress == null)
+                // Если после остановки игры прошло необходимое кол-во минут - завершаем игру.
+                if (GameStatus == GameStatusType.Stopped &&
+                    EndTime != null && curTime > EndTime?.AddMinutes(Setting.GameClosingDurationMin))
                 {
-                    m.Player.SendMessage(Noticer, $"Ваша команда еще не получила первое задание.");
-                    continue;
+                    GameStatus = GameStatusType.Ended;
+                    SendBroadcastMessage("Приём кодов завершён.");
                 }
-
-                if (playerTeam.Progress.GetCurrentTask() == null)
-                {
-                    m.Player.SendMessage(Noticer, $"Ваша команда уже выполнила все задания.");
-                    continue;
-                }
-
-                switch (m.Text)
-                {
-                    case "задание": m.Player.SendMessage(Noticer, $"Какая-то подсказка."); continue;
-                }
-
-                if (playerTeam.Progress.GetCurrentTask().Code == m.Text)
-                    NewEvents.Add(new PlayerCompletedTask(curTime, playerTeam.Id, m.Player.Id, playerTeam.Progress.CurrentTaskIndex));
-                else
-                    NewEvents.Add(new PlayerFailedTask(curTime, playerTeam.Id, m.Player.Id, playerTeam.Progress.CurrentTaskIndex));
-            }
-
-            // STEP 4: Если прошло достаточно времени - сохраняем игру
-            // TODO: ... 
-
-            // STEP 5: Завершение игры
-            // Переводим игру в статус "останавливается", если пришло время конца игры.
-            if (GameStatus == GameStatusType.InProgress &&
-                curTime.Subtract((DateTime)LaunchTime).TotalMinutes > Setting.GameDurationMin)
-                NewEvents.Add(new GameStopped(DateTime.Now));
-
-            // Если после остановки игры прошло необходимое кол-во минут - завершаем игру.
-            if (GameStatus == GameStatusType.Stopped &&
-                EndTime != null && curTime > EndTime?.AddMinutes(Setting.GameClosingDurationMin))
-            {
-                GameStatus = GameStatusType.Ended;
-                SendBroadcastMessage("Приём кодов завершён.");
             }
         }
 
@@ -191,24 +195,53 @@ namespace NiteLigaLibrary
             Noticer.AddOutputMessages(allPlayers, message);
         }
 
-        public object GetLastBackup()
+        public string GetLastBackup()
         {
-            // TODO: Возвращает актуальный экземпляр бекапа игры.
-            throw new NotImplementedException();
+            lock (_locker)
+            {
+                Dictionary<int, TeamProgressBackupModel> dic = new Dictionary<int, TeamProgressBackupModel>();
+                foreach (var t in Teams)
+                    dic.Add(t.Id, new TeamProgressBackupModel
+                    {
+                        CurrentTaskIndex = t.Progress.CurrentTaskIndex,
+                        LastHintTime = t.Progress.LastHintTime,
+                        LastTaskCompleteTime = t.Progress.LastTaskCompleteTime
+                    });
+
+                return JsonConvert.SerializeObject(new GameBackupModel
+                {
+                    StoredEvents = this.StoredEvents,
+                    GameStatus = this.GameStatus,
+                    LaunchTime = this.LaunchTime,
+                    EndTime = this.EndTime,
+                    TeamProgress = dic
+                });
+            }
         }
 
-        private void Save()
+        public void Restore(GameBackupModel backup)
         {
-            // TODO: Добавление события "игра сохранена".
-            // TODO: Полное сохранение игры на данный момент.
-            throw new NotImplementedException();
-        }
+            if (GameStatus != GameStatusType.Created)
+                throw new Exception("Нельзя восстановить игру, так как она уже была запущена.");
 
-        public void Restore()
-        {
-            // TODO: Добавление события "игра восстановлена".
-            // TODO: Полное восстановление игры с критической точки.
-            throw new NotImplementedException();
+            StoredEvents.AddRange(backup.StoredEvents);
+            GameStatus = backup.GameStatus;
+            LaunchTime = backup.LaunchTime;
+            EndTime = backup.EndTime;
+
+            foreach (var td in backup.TeamProgress)
+            {
+                LocalTeam team = Teams.Single(x => x.Id == td.Key);
+                team.Progress = new TeamGameProgress(
+                        Config.Grid[Teams.IndexOf(team)],
+                        td.Value.LastHintTime,
+                        td.Value.LastTaskCompleteTime,
+                        td.Value.CurrentTaskIndex
+                    );
+            }
+
+            NewEvents.Add(new GameRestored((DateTime)LaunchTime));
+            SendBroadcastMessage("Игра была восстановлена после перезапуска");
         }
     }
 }

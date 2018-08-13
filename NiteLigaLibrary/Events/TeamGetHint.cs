@@ -12,12 +12,12 @@ namespace NiteLigaLibrary.Events
         public int TeamId { get; set; }
         public int TaskIndex { get; set; }
 
-        public TeamGetHint(DateTime date, int teamId, int dropTaskId)
+        public TeamGetHint(DateTime date, int teamId, int taskIndex)
         {
             this.AddDate = date;
             this.Type = GameEventType.TeamGetHint;
             this.TeamId = teamId;
-            this.TaskIndex = dropTaskId;
+            this.TaskIndex = taskIndex;
         }
 
         public override void Run(GameManager gm)

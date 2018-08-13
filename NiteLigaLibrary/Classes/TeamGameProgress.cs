@@ -29,6 +29,14 @@ namespace NiteLigaLibrary.Classes
         /// </summary>
         public int CurrentTaskIndex { get; set; }
 
+        public TeamGameProgress(List<GameTask> tasks, DateTime lastHintTime, DateTime lastTaskCompleteTime, int currentTaskIndex)
+        {
+            this.Tasks = tasks;
+            this.LastTaskCompleteTime = lastTaskCompleteTime;
+            this.LastHintTime = lastHintTime;
+            this.CurrentTaskIndex = currentTaskIndex;
+        }
+
         public TeamGameProgress(List<GameTask> tasks, DateTime startTime)
         {
             this.Tasks = tasks;
