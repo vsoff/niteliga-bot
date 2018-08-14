@@ -20,7 +20,6 @@ namespace WebServer.Classes
 
         public static void Initialize()
         {
-            // TODO: Надо реализовать возможность сохранения и загрузки игры
             lock (_locker)
             {
                 List<GameArchive> notEndedGames;

@@ -3,15 +3,19 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
-<select id="launchPanelIdSelect">
-    @foreach (var a in @ViewBag.GameProjects)
-    {
-        <option value="@a.Id">@a.Caption</option>
-    }
-</select>
-
-<button onclick="launchGame()" class="btn btn-default">Запустить игру</button>
+<div class="row">
+    <div class="col-md-3">
+        <select class="form-control" id="launchPanelIdSelect">
+            @foreach (var a in @ViewBag.GameProjects)
+            {
+                <option value="@a.Id">@a.Caption</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-1">
+        <button onclick="launchGame()" class="btn btn-default">Запустить игру</button>
+    </div>
+</div>
 
 <ul>
     @foreach (var a in @ViewBag.GameArchives)
@@ -25,5 +29,4 @@
         </li>
     }
 </ul>
-
 @Scripts.Render("~/js/launch-panel.js")

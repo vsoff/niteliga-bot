@@ -240,7 +240,7 @@ namespace NiteLigaLibrary
                     );
             }
 
-            NewEvents.Add(new GameRestored((DateTime)LaunchTime));
+            NewEvents.Add(new GameRestored(DateTime.Now));
             SendBroadcastMessage("Игра была восстановлена после перезапуска");
         }
     }

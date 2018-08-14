@@ -1,38 +1,39 @@
 ﻿@using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Главная страница";
 }
 
 @if (User.Identity.IsAuthenticated)
 {
-<div>
-    <h2>Меню</h2>
-    @if (User.IsInRole("admin"))
-    {
-    <p>Server started at <b>@ViewBag.ServerStartupTime</b></p>
-        <i>Администратор:</i>
-        <ul>
-            <li>Управление организаторами</li>
-        </ul>
-    }
-    @if (User.IsInRole("organizer"))
-    {
-        <i>Организатор:</i>
-        <ul>
-            <li><a href="@Url.Action("Games", "Organizer")">Редактор игр</a></li>
-            <li><a href="@Url.Action("LaunchPanel", "Organizer")">Запуск игр</a></li>
-            <li>Архив игр</li>
-        </ul>
-    }
-    @if (User.IsInRole("admin") || User.IsInRole("organizer")) {
-        <i>Игрок:</i>
-    }
+    <div>
+        <h2>Меню</h2>
+        @if (User.IsInRole("admin"))
+        {
+            <p>Server started at <b>@ViewBag.ServerStartupTime</b></p>
+            <i>Администратор:</i>
+            <ul>
+                <li>Управление организаторами</li>
+            </ul>
+        }
+        @if (User.IsInRole("organizer"))
+        {
+            <i>Организатор:</i>
+            <ul>
+                <li><a href="@Url.Action("Games", "Organizer")">Редактор игр</a></li>
+                <li><a href="@Url.Action("LaunchPanel", "Organizer")">Запуск игр</a></li>
+                <li>Архив игр</li>
+            </ul>
+        }
+        @if (User.IsInRole("admin") || User.IsInRole("organizer"))
+        {
+            <i>Игрок:</i>
+        }
         <ul>
             <li><a href="@Url.Action("Player", "Social")">Мой профиль</a></li>
             <li><a href="@Url.Action("TeamList", "Social" )">Список команд</a></li>
             <li><a href="@Url.Action("PlayerList", "Social")">Список игроков</a></li>
         </ul>
-</div>
+    </div>
 }
 else
 {
