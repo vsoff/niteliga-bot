@@ -1,35 +1,134 @@
 ﻿@{
     ViewBag.Title = "Редактор игры";
 }
-
 <h2>@ViewBag.Title</h2>
-<p>
-    <a href="/Organizer/Games"><< вернуться к списку игр</a>
-</p>
-@if (ViewBag.Game != null)
-{
-    <p><b>Ид:</b> @ViewBag.Game.Id</p>
-    <p><b>Дата создания:</b> @ViewBag.Game.CreateDate</p>
-    <p>
-        <b>Описание:</b>
-    </p>
-    <p>
-        <input class="form-control" id="game-editor-caption" value="@ViewBag.Game.Caption" />
-    </p>
-    <p>
-        <b>Config:</b>
-    </p>
-    <p>
-        <textarea class="form-control" id="game-editor-json">@ViewBag.Game.Config</textarea>
-    </p>
-    <p>
-        <b>Setting:</b>
-    </p>
-    <p>
-        <textarea class="form-control" id="game-editor-setting">@ViewBag.Game.Setting</textarea>
-    </p>
-    <button onclick="saveGame(@ViewBag.Game.Id)" class="btn btn-default">Сохранить</button>
-}
+<p><a href="/Organizer/Games"><< вернуться к списку игр</a></p>
 
 
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#panel1">Настройки игры</a></li>
+    <li><a data-toggle="tab" href="#panel2">Редактор заданий</a></li>
+    <li><a data-toggle="tab" href="#panel3">Карта</a></li>
+    <li><a data-toggle="tab" href="#panel4">Сетка</a></li>
+</ul>
+
+<div class="tab-content">
+    <!-- PANEL 1 -->
+    <div id="panel1" class="tab-pane fade in active">
+        <p>
+            <b>Описание:</b>
+            <input class="form-control" data-bind="value: Caption" />
+        </p>
+        <p>
+            <b>Участвующие команды:</b>
+            <input class="form-control" data-bind="value: TeamIds" />
+        </p>
+        <p>
+            <b>Настройки игры:</b>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Имя параметра</th>
+                        <th width="100px">Значение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Длительность завершения игры (мин)</td>
+                        <td><input class="form-control" data-bind="value: GameClosingDurationMin" /></td>
+                    </tr>
+                    <tr>
+                        <td>Длительность игры (мин)</td>
+                        <td><input class="form-control" data-bind="value: GameDurationMin" /></td>
+                    </tr>
+                    <tr>
+                        <td>Количество секунд до первой подсказки</td>
+                        <td>
+                            <input class="form-control" data-bind="value: Hint1DelaySec" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Количество секунд до слива адреса</td>
+                        <td>
+                            <input class="form-control" data-bind="value: Hint2DelaySec" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Количество секунд до слива задания</td>
+                        <td>
+                            <input class="form-control" data-bind="value: TaskDropDelaySec" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Задержка между стартом команд (сек)</td>
+                        <td>
+                            <input class="form-control" data-bind="value: SecondsDelayStart" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
+    </div>
+    <!-- PANEL 2 -->
+    <div id="panel2" class="tab-pane fade">
+        <div class="row task-editor">
+            <div class="col-md-6">
+                <h4>Список заданий</h4>
+                <ol class="tasks-list" data-bind="foreach: Tasks">
+                    <li data-bind="click: $root.editorPickTask">
+
+                        <div class="preview task" data-bind="text: Task() || '<нет задания>'"></div>
+                        <div class="preview address" data-bind="text: Address() || '<адрес не указан>'"></div>
+                    </li>
+                </ol>
+                <input class="btn btn-primary" data-bind="click: editorNewTask" type="button" value="Добавить задание" />
+            </div>
+            <div class="col-md-6">
+                <h4>Редактор</h4>
+
+                <div data-bind="visible: !Editor._this()" class="alert alert-info" role="alert">
+                    Нажмите на одно из заданий, чтобы начать редактирование.
+                </div>
+
+                <div data-bind="visible: Editor._this()">
+                    <ul class="fields-list">
+                        <li><b>Адрес</b><input class="form-control full-width" data-bind="value: Editor.Address" /></li>
+                        <li><b>Задание</b><textarea class="form-control full-width" data-bind="value: Editor.Task"></textarea></li>
+                        <li><b>Подсказка 1</b><textarea class="form-control full-width" data-bind="value: Editor.Hint1"></textarea></li>
+                        <li><b>Подсказка 2</b><textarea class="form-control full-width" data-bind="value: Editor.Hint2"></textarea></li>
+                        <li><b>Код</b><input class="form-control full-width" data-bind="value: Editor.Code" /></li>
+                    </ul>
+                    <input data-bind="click: editorSaveTask" class="btn btn-primary" type="button" value="Сохранить изменения" />
+                    <input data-bind="click: $root.editorDeleteTask" class="btn btn-danger" type="button" value="Удалить" />
+                    <input data-bind="click: editorCancel" class="btn btn-light" type="button" value="Отменить" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PANEL 3 -->
+    <div id="panel3" class="tab-pane fade">
+        <h3>Карта</h3>
+        <p style="text-align: center">
+            <img src="https://www.loteriebenin.com/wp-content/uploads/2018/02/lieu.png" />
+            <br />
+            [Тут должна быть карта]
+        </p>
+    </div>
+    <!-- PANEL 4 -->
+    <div id="panel4" class="tab-pane fade">
+        <h3>Сетка</h3>
+        <p>Содержимое 4 панели...</p>
+    </div>
+</div>
+
+<div class="row" style="padding-top: 22px">
+    <p>
+        <button onclick="saveGame(@ViewBag.Game.Id)" class="btn btn-success">Сохранить игру</button>
+    </p>
+    <p>
+        <i data-bind="text: 'Игра [id' + Id() + '] создана ' + CreateDate()"></i>
+    </p>
+</div>
+
+@Scripts.Render("~/Scripts/knockout-3.4.2.js")
 @Scripts.Render("~/js/editor.js")

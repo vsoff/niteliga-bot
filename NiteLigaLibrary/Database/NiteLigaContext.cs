@@ -17,6 +17,7 @@ namespace NiteLigaLibrary.Database
         
         public NiteLigaContext() : base(ConnectionString ?? "DefaultConnection")
         {
+            Configuration.ProxyCreationEnabled = false;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

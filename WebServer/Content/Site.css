@@ -41,3 +41,45 @@ textarea {
     background: url(https://vk.com/images/camera_200.png);
     background-size: 100%;
 }
+
+.debug {
+    border: 1px solid red;
+}
+
+.task-editor .tasks-list li {
+    height: 44px;
+    border: 1px solid #e2e2e2;
+    background: #fafcff;
+    margin-top: 3px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+    .task-editor .tasks-list li:hover {
+        background: #eef2f7;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .task-editor .tasks-list li .task {
+        color: #455db3;
+    }
+    .task-editor .tasks-list li .address {
+        color: #b3b3b3;
+    }
+
+.preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-editor .fields-list {
+    padding: 0px;
+    list-style: none;
+}
+
+.full-width {
+    max-width: 100%;
+    min-width: 100%
+}

@@ -32,7 +32,7 @@ namespace WebServer.Controllers
             GameProject game;
 
             using (var db = new NiteLigaContext())
-                game = db.GameProjects.Single(x => x.Id == id);
+                game = db.GameProjects.FirstOrDefault(x => x.Id == id);
 
             ViewBag.Game = game;
 
