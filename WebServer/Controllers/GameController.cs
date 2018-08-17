@@ -112,7 +112,7 @@ namespace WebServer.Controllers
                     game.UpdateDate = DateTime.Now;
                     game.Caption = model.Caption;
                     game.Setting = model.Setting;
-                    game.Config = model.JSON;
+                    game.Config = model.Config;
                     db.SaveChanges();
                 }
                 return new { message = "Game updated successfully" };

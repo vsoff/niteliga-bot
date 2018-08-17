@@ -2,7 +2,7 @@
     ViewBag.Title = "Редактор игры";
 }
 <h2>@ViewBag.Title</h2>
-<p><a href="/Organizer/Games"><< вернуться к списку игр</a></p>
+<p><a href="/organizer/games"><< вернуться к списку игр</a></p>
 
 
 <ul class="nav nav-tabs">
@@ -25,7 +25,7 @@
         </p>
         <p>
             <b>Настройки игры:</b>
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Имя параметра</th>
@@ -77,8 +77,8 @@
                 <ol class="tasks-list" data-bind="foreach: Tasks">
                     <li data-bind="click: $root.editorPickTask">
 
-                        <div class="preview task" data-bind="text: Task() || '<нет задания>'"></div>
-                        <div class="preview address" data-bind="text: Address() || '<адрес не указан>'"></div>
+                        <div class="preview task" data-bind="text: Task || '<нет задания>'"></div>
+                        <div class="preview address" data-bind="text: Address || '<адрес не указан>'"></div>
                     </li>
                 </ol>
                 <input class="btn btn-primary" data-bind="click: editorNewTask" type="button" value="Добавить задание" />
@@ -117,13 +117,62 @@
     <!-- PANEL 4 -->
     <div id="panel4" class="tab-pane fade">
         <h3>Сетка</h3>
-        <p>Содержимое 4 панели...</p>
+        <div data-bind="visible: $root.Tasks().length == 0" class="alert alert-info" role="alert">
+            Перед созданием сетки необходимо добавить задания
+        </div>
+        <div data-bind="visible: $root.Tasks().length > 0">
+            <p>
+                Количество сеток:
+                <input data-bind="click: $root.reduceWayCount" class="btn btn-info" type="button" value="-">
+                <b data-bind="text: $this.Grid().length"></b>
+                <input data-bind="click: $root.increaseWayCount" class="btn btn-info" type="button" value="+">
+            </p>
+            <p>
+                Количество заданий:
+                <input data-bind="click: $root.reduceTaskCount" class="btn btn-info" type="button" value="-">
+                <b data-bind="text: $this.Grid().length > 0 ? $this.Grid()[0]().length : 0"></b>
+                <input data-bind="click: $root.increaseTaskCount" class="btn btn-info" type="button" value="+">
+            </p>
+            <div data-bind="foreach: $root.Tasks" class="row">
+                <div class="col-md-3 grid-task grid-task-text">
+                    <div class="preview inline task" data-bind="text: $index() + '. ' + Task(),
+                             style: {'font-weight': $this.gridCellValue() == $index() ? 700 : 100},
+                             click: $this.setGridPattern.bind($data, $index())"></div>
+                    <input class="inline colorize" type="color" data-bind="value: _color" />
+                </div>
+            </div>
+            <div style="width: 100%; overflow-x:scroll">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Сетка</th>
+                            <!-- ko foreach: $root.Grid().length > 0 ? $root.Grid()[0] : [] -->
+                            <th data-bind="text: 'Задание №' + ($index() + 1)"></th>
+                            <!-- /ko -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: $root.Grid -->
+                        <tr>
+                            <th data-bind="text: ($index() + 1) + '.'"></th>
+                            <!-- ko foreach: $data -->
+                            <td class="grid-table" data-bind="click: $root.setGridCell.bind($data, $context.$index(), $parentContext.$index()),
+                                style: { backgroundColor: $root.getTaskColor($data) }">
+                                <div class="preview grid-task-text" data-bind="text: $data + '.'"></div>
+                            </td>
+                            <!-- /ko -->
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="row" style="padding-top: 22px">
     <p>
-        <button onclick="saveGame(@ViewBag.Game.Id)" class="btn btn-success">Сохранить игру</button>
+        <button data-bind="click: saveData" class="btn btn-success">Сохранить игру</button>
     </p>
     <p>
         <i data-bind="text: 'Игра [id' + Id() + '] создана ' + CreateDate()"></i>

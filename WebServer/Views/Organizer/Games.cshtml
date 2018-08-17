@@ -24,7 +24,7 @@
                 <td>@a.UpdateDate</td>
                 <td>@a.Caption</td>
                 <td>
-                    <a href="@editLink" class="btn btn-default">Редактировать</a>
+                    <a href="/organizer/editor?id=@a.Id" class="btn btn-default">Редактировать</a>
                     <button name="@a.Id" onclick="verifyGame(@a.Id)" class="btn btn-default">Проверить</button>
                     <button name="@a.Id" onclick="deleteGame(@a.Id)" class="btn btn-default">Удалить</button>
                 </td>

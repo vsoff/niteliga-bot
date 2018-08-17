@@ -9,6 +9,6 @@ namespace WebServer.Models
     {
         public string Caption { get; set; }
         public string Setting { get; set; }
-        public string JSON { get; set; }
+        public string Config { get; set; }
     }
 }

@@ -64,6 +64,7 @@ textarea {
     .task-editor .tasks-list li .task {
         color: #455db3;
     }
+
     .task-editor .tasks-list li .address {
         color: #b3b3b3;
     }
@@ -73,6 +74,45 @@ textarea {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.inline {
+    display: inline-block;
+}
+
+.grid-task-text {
+    color: #000000aa;
+    /* text-shadow: 1px 1px 0 black, -1px -1px 0 black; */
+}
+
+.grid-task {
+    border: 1px solid #96d2a6;
+    background: #ddf1e2;
+    padding: 7px;
+    text-align: center;
+    margin-left: -1px;
+    margin-top: -1px;
+}
+
+    .grid-task:hover {
+        background: #f6fddd;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    .grid-task .task {
+        width: 70%;
+    }
+
+    .grid-task .colorize {
+        width: 20%;
+        padding: 0px;
+        border: 1px solid black;
+        background: white;
+    }
+
+        .grid-task .colorize:hover {
+            border: 1px solid white;
+        }
 
 .task-editor .fields-list {
     padding: 0px;

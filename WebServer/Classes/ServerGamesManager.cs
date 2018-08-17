@@ -61,7 +61,7 @@ namespace WebServer.Classes
                     gameProject = db.GameProjects.Single(x => x.Id == gameProjectId);
 
                     // Проверяем, были ли проведены НЕ ТЕСТОВЫЕ игры по этой конфигурации
-                    if (gameProject.GameArchives.Where(x => x.IsTestRun == false).Count() != 0)
+                    if (gameProject.GameArchives!=null && gameProject.GameArchives.Where(x => x.IsTestRun == false).Count() != 0)
                         throw new Exception("Эта игра уже проводилась");
 
                     // Проверяем конфигурацию на наличие ошибок
