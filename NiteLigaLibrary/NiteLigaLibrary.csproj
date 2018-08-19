@@ -62,6 +62,8 @@
     <Compile Include="Classes\LocalTeam.cs" />
     <Compile Include="Classes\Message.cs" />
     <Compile Include="Classes\TeamGameProgress.cs" />
+    <Compile Include="Classes\VkontakteManager.cs" />
+    <Compile Include="Classes\VkontakteModels.cs" />
     <Compile Include="Events\AdminSendMessage.cs" />
     <Compile Include="Classes\BackupConverter.cs" />
     <Compile Include="Events\GameAborted.cs" />

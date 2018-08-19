@@ -18,6 +18,7 @@
     <add key="UnobtrusiveJavaScriptEnabled" value="true" />
     <add key="VkClientId" value="CLIENTID" />
     <add key="VkClientSecret" value="CLIENTSECRET" />
+    <add key="VkApiToken" value="APITOKEN" />
     <add key="VkApiVersion" value="5.60" />
   </appSettings>
   <system.web>
