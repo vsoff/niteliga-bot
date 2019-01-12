@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1DD55907-AA3A-4A22-BB27-A74A9EB92DD1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NL.NiteLiga.Core</RootNamespace>
+    <AssemblyName>NL.NiteLiga.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entites\GameArchive.cs" />
+    <Compile Include="Entites\GameProject.cs" />
+    <Compile Include="Entites\Player.cs" />
+    <Compile Include="Entites\Membership.cs" />
+    <Compile Include="Entites\Team.cs" />
+    <Compile Include="Events\Types\AdminSendMessage.cs" />
+    <Compile Include="Events\Types\GameAborted.cs" />
+    <Compile Include="Events\GameEvent.cs" />
+    <Compile Include="Events\GameEventType.cs" />
+    <Compile Include="Events\Types\GameRestored.cs" />
+    <Compile Include="Events\Types\GameSaved.cs" />
+    <Compile Include="Events\Types\GameStarted.cs" />
+    <Compile Include="Events\Types\GameStopped.cs" />
+    <Compile Include="Events\Types\PlayerCompletedTask.cs" />
+    <Compile Include="Events\Types\PlayerFailedTask.cs" />
+    <Compile Include="Events\Types\TeamDropTask.cs" />
+    <Compile Include="Events\Types\TeamGetAddress.cs" />
+    <Compile Include="Events\Types\TeamGetHint.cs" />
+    <Compile Include="Events\Types\TeamStartsPlay.cs" />
+    <Compile Include="Game\GameConfig.cs" />
+    <Compile Include="Game\GameSettings.cs" />
+    <Compile Include="Game\GameTask.cs" />
+    <Compile Include="Game\GameTeamStatus.cs" />
+    <Compile Include="Game\GameTeamProgress.cs" />
+    <Compile Include="Messengers\IMessagePool.cs" />
+    <Compile Include="Messengers\IMessager.cs" />
+    <Compile Include="Messengers\Message.cs" />
+    <Compile Include="NiteLigaGameManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IGamesRepository.cs" />
+    <Compile Include="Repositories\IPlayersRepository.cs" />
+    <Compile Include="Repositories\ITeamsRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NL.Core\NL.Core.csproj">
+      <Project>{3f19d0db-1d7f-45a7-ac47-e147c5e472fb}</Project>
+      <Name>NL.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
