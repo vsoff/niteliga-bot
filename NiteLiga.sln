@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NL.Core", "NL.Core\NL.Core.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NL.NiteLiga.Core", "NL.NiteLiga.Core\NL.NiteLiga.Core.csproj", "{1DD55907-AA3A-4A22-BB27-A74A9EB92DD1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiteLigaDesktopApp", "NiteLigaDesktopApp\NiteLigaDesktopApp.csproj", "{DED8E75E-CF45-4650-A804-C08AD3A1BF8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1DD55907-AA3A-4A22-BB27-A74A9EB92DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DD55907-AA3A-4A22-BB27-A74A9EB92DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DD55907-AA3A-4A22-BB27-A74A9EB92DD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DED8E75E-CF45-4650-A804-C08AD3A1BF8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DED8E75E-CF45-4650-A804-C08AD3A1BF8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DED8E75E-CF45-4650-A804-C08AD3A1BF8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DED8E75E-CF45-4650-A804-C08AD3A1BF8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
