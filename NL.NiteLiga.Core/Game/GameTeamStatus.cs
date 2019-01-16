@@ -1,4 +1,4 @@
-﻿using NL.NiteLiga.Core.Entites;
+﻿using NL.NiteLiga.Core.DataAccess.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;

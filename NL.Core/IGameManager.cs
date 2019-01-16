@@ -24,7 +24,7 @@ namespace NL.Core
         /// </summary>
         GameStatusType Status { get; }
 
-        void Start(BaseGameSettings setting, BaseGameConfig config, BaseGameBackup backup = null);
+        void Start(BaseGameConfiguration configuration, BaseGameBackup backup = null);
         void Iterate();
         void Abort();
         void Stop();
