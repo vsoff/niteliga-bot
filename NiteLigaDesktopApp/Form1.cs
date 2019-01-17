@@ -3,6 +3,7 @@ using NL.NiteLiga.Core;
 using NL.NiteLiga.Core.DataAccess.Entites;
 using NL.NiteLiga.Core.DataAccess.Repositories;
 using NL.NiteLiga.Core.Game;
+using NL.NiteLiga.Core.Game.Messengers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,10 @@ namespace NiteLigaDesktopApp
         private readonly IUnityContainer _container;
         private NiteLigaGameManager _gameManager;
         private GameTemplate[] _templates;
+        private const long _gameMatchId = 0;
+        private GameTemplate _selectedTemplate;
+        private Team[] _teams;
+        private Team _selectedTeam;
 
         public Form1()
         {
@@ -41,14 +46,23 @@ namespace NiteLigaDesktopApp
             }
 
             var gamesRepos = _container.Resolve<IGamesRepository>();
-            var template = gamesRepos.GetTemplateHard(_templates[templateIndex].Id);
+            _selectedTemplate = gamesRepos.GetTemplateHard(_templates[templateIndex].Id);
             _gameManager = _container.Resolve<NiteLigaGameManager>();
             _gameManager.Start(new NiteLigaGameConfiguration
             {
-                GameMatchId = 0,
-                Config = template.Config,
-                Settings = template.Settings
+                GameMatchId = _gameMatchId,
+                Config = _selectedTemplate.Config,
+                Settings = _selectedTemplate.Settings
             });
+
+            var teamsRepos = _container.Resolve<ITeamsRepository>();
+            _teams = teamsRepos.GetTeams(_selectedTemplate.Settings.TeamIds);
+            comboBox2.Items.Clear();
+            foreach (var team in _teams)
+                comboBox2.Items.Add($"{team.Id}. {team.Name}");
+
+            panel1.Enabled = false;
+            panel2.Enabled = true;
 
             Task.Run(() =>
             {
@@ -56,7 +70,11 @@ namespace NiteLigaDesktopApp
                 {
                     _gameManager.Iterate();
                     if (_gameManager.Status == GameStatusType.Ended || _gameManager.Status == GameStatusType.Aborted)
+                    {
+                        panel2.Enabled = false;
+                        panel1.Enabled = true;
                         break;
+                    }
                     Thread.Sleep(1000);
                 }
             });
@@ -70,6 +88,36 @@ namespace NiteLigaDesktopApp
             comboBox1.Items.Clear();
             foreach (var template in _templates)
                 comboBox1.Items.Add($"{template.Id}. {template.Caption}");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int selectedPlayerIndex = comboBox3.SelectedIndex;
+            if (selectedPlayerIndex == -1)
+            {
+                MessageBox.Show("Не выбран игрок!");
+                return;
+            }
+
+            var messagePool = _container.Resolve<IMessagePool>();
+            messagePool.AddMessage(new NL.NiteLiga.Core.Game.Messengers.Message
+            {
+                GameMatchId = _gameMatchId,
+                Team = _selectedTeam,
+                Player = _selectedTeam.Players[selectedPlayerIndex],
+                Text = textBox1.Text
+            });
+
+            textBox1.Clear();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedTeam = _teams[comboBox2.SelectedIndex];
+
+            comboBox3.Items.Clear();
+            foreach (var player in _selectedTeam.Players)
+                comboBox3.Items.Add($"{player.Id}. {player.GetFullName()}");
         }
     }
 }

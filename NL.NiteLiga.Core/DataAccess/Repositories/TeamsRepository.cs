@@ -45,7 +45,7 @@ namespace NL.NiteLiga.Core.DataAccess.Repositories
                 ).ToArray();
             }
 
-            Team[] teams = memberships.Select(x => x.Team).ToArray();
+            Team[] teams = memberships.GroupBy(x => x.TeamId).Select(x => x.First()).Select(x => x.Team).ToArray();
             foreach (var team in teams)
                 team.Players = memberships.Where(x => x.TeamId == team.Id).Select(x => x.Player).ToArray();
             return teams.ToArray();
