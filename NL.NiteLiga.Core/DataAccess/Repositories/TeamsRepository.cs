@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 using NL.NiteLiga.Core.DataAccess.DbContexts;
@@ -31,18 +32,23 @@ namespace NL.NiteLiga.Core.DataAccess.Repositories
 
         public Team[] GetTeams(long[] teamIds)
         {
+            Membership[] memberships;
+
             using (var context = _contextProvider.GetContext())
             {
-                var teams = context.Teams.Where(x => teamIds.Contains(x.Id));
-                var memberships = context.Memberships.Where(
-                    x => teamIds.Contains(x.TeamId)
-                    && x.LeaveDate == null
-                    && _inTeamMembershipStatuses.Contains(x.Status)
+                memberships = context.Memberships
+                    .Include(x => x.Player)
+                    .Include(x => x.Team)
+                    .Where(x => teamIds.Contains(x.TeamId)
+                   && x.LeaveDate == null
+                   && _inTeamMembershipStatuses.Contains(x.Status)
                 ).ToArray();
-                foreach (var team in teams)
-                    team.Players = memberships.Where(x => x.TeamId == team.Id).Select(x => x.Player).ToArray();
-                return teams.ToArray();
             }
+
+            Team[] teams = memberships.Select(x => x.Team).ToArray();
+            foreach (var team in teams)
+                team.Players = memberships.Where(x => x.TeamId == team.Id).Select(x => x.Player).ToArray();
+            return teams.ToArray();
         }
     }
 }

@@ -3,6 +3,7 @@ using NL.NiteLiga.Core.DataAccess.DbContexts;
 using NL.NiteLiga.Core.DataAccess.Repositories;
 using NL.NiteLiga.Core.Game;
 using NL.NiteLiga.Core.Game.Messengers;
+using NL.NiteLiga.Core.Serializers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,9 @@ namespace NL.NiteLiga.Core
 {
     public static class NiteLigaCoreModule
     {
-        public static void Register(UnityContainer container)
+        public static void Register(IUnityContainer container)
         {
+            // Главное.
             container.RegisterType<IGameManager, NiteLigaGameManager>(new TransientLifetimeManager());
 
             // Взаимодействие с БД.
@@ -26,8 +28,10 @@ namespace NL.NiteLiga.Core
 
             // Работа с сообщениями.
             container.RegisterType<IMessagePool, MessagePool>(new SingletonLifetimeManager());
-            container.RegisterType<IMessenger, VkontakteMessenger>(new SingletonLifetimeManager());
+            container.RegisterType<IMessenger, FakeMessenger>(new SingletonLifetimeManager());
 
+            // Остальное.
+            container.RegisterType<INiteLigaDeserializator, NiteLigaDeserializator>(new SingletonLifetimeManager());
         }
     }
 }

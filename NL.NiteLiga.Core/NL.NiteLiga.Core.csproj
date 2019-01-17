@@ -119,6 +119,7 @@
     <Compile Include="DataAccess\Repositories\ITeamsRepository.cs" />
     <Compile Include="DataAccess\DbContexts\NiteLigaContext.cs" />
     <Compile Include="DataAccess\Repositories\TeamsRepository.cs" />
+    <Compile Include="Serializers\ConfigSerializator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NL.Core\NL.Core.csproj">

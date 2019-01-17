@@ -58,7 +58,7 @@ namespace NL.NiteLiga.Core.Game
                 throw new Exception("Нельзя начать игру, так как она уже была запущена.");
 
             // Предстартовые настройки.
-            if (backup == null)
+            if (backup != null)
             {
                 throw new NotImplementedException();
             }
@@ -302,7 +302,6 @@ namespace NL.NiteLiga.Core.Game
                 case GameEventType.PlayerCompletedTask:
                     {
                         var gevent = gameEvent as PlayerCompletedTask;
-
                         var teamContainer = _teamsContainers.First(x => x.Team.Id == gevent.TeamId);
                         teamContainer.Progress.CompleteTask(gevent.AddDate, gevent.TaskIndex);
 
@@ -347,6 +346,7 @@ namespace NL.NiteLiga.Core.Game
                     {
                         var gevent = gameEvent as TeamDropTask;
                         var teamContainer = _teamsContainers.First(x => x.Team.Id == gevent.TeamId);
+                        teamContainer.Progress.CompleteTask(gevent.AddDate, gevent.TaskIndex);
 
                         if (teamContainer.Progress.IsAllTaskCompleted())
                             _messenger.SendMessage(teamContainer.Team, "Задание слито!\r\nВсе задания выполнены, возвращайтесь на место сбора.");

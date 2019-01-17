@@ -9,7 +9,8 @@ namespace NL.NiteLiga.Core.DataAccess.Repositories
 {
     public interface IGamesRepository
     {
-        GameTemplate GetTemplate(long gameTemplateId);
+        GameTemplate[] GetAllTemplatesLight();
+        GameTemplate GetTemplateHard(long gameTemplateId);
         GameMatch[] GetMatches(long gameTemplateId);
     }
 }
