@@ -12,17 +12,17 @@ namespace NL.NiteLiga.Core.Game.Messengers
     {
         public void SendMessage(Team team, string message)
         {
-            Debug.WriteLine($"Команде {team.Name} [ID {team.Id}] отправлено сообщение: {message}");
+            Debug.WriteLine(DateTime.Now + $": Команде `{team.Name}` [ID {team.Id}] отправлено сообщение: {message}");
         }
 
         public void SendMessage(Player player, string message)
         {
-            Debug.WriteLine($"Игроку {player.GetFullName()} [ID {player.Id}] отправлено сообщение: {message}");
+            Debug.WriteLine(DateTime.Now + $": Игроку `{player.GetFullName()}` [ID {player.Id}] отправлено сообщение: {message}");
         }
 
         public void SendMessage(Player[] players, string message)
         {
-            Debug.WriteLine($"Игрокам ({players.Length}) IDs: [{string.Join(",", players.Select(x => x.Id))}] отправлено сообщение: {message}");
+            Debug.WriteLine(DateTime.Now + $": Игрокам ({players.Length}) IDs: [{string.Join(",", players.Select(x => x.Id))}] отправлено сообщение: {message}");
         }
     }
 }

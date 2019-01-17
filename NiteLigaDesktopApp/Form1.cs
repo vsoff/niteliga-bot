@@ -55,6 +55,8 @@ namespace NiteLigaDesktopApp
                 while (true)
                 {
                     _gameManager.Iterate();
+                    if (_gameManager.Status == GameStatusType.Ended || _gameManager.Status == GameStatusType.Aborted)
+                        break;
                     Thread.Sleep(1000);
                 }
             });

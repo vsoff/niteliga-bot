@@ -3,7 +3,7 @@ using NL.NiteLiga.Core.DataAccess.DbContexts;
 using NL.NiteLiga.Core.DataAccess.Repositories;
 using NL.NiteLiga.Core.Game;
 using NL.NiteLiga.Core.Game.Messengers;
-using NL.NiteLiga.Core.Serializers;
+using NL.NiteLiga.Core.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
