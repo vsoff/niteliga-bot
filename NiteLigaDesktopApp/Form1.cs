@@ -63,20 +63,31 @@ namespace NiteLigaDesktopApp
 
             panel1.Enabled = false;
             panel2.Enabled = true;
+            groupBox2.Enabled = true;
 
             Task.Run(() =>
             {
                 while (true)
                 {
                     _gameManager.Iterate();
+
+                    if (_gameManager.Status == GameStatusType.Stopped)
+                        Invoke((MethodInvoker)(delegate ()
+                        {
+                            groupBox2.Enabled = false;
+                        }));
+
                     if (_gameManager.Status == GameStatusType.Ended || _gameManager.Status == GameStatusType.Aborted)
-                    {
-                        panel2.Enabled = false;
-                        panel1.Enabled = true;
                         break;
-                    }
+
                     Thread.Sleep(1000);
                 }
+
+                Invoke((MethodInvoker)(delegate ()
+                {
+                    panel2.Enabled = false;
+                    panel1.Enabled = true;
+                }));
             });
         }
 
@@ -118,6 +129,16 @@ namespace NiteLigaDesktopApp
             comboBox3.Items.Clear();
             foreach (var player in _selectedTeam.Players)
                 comboBox3.Items.Add($"{player.Id}. {player.GetFullName()}");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            _gameManager.Abort();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            _gameManager.Stop();
         }
     }
 }
