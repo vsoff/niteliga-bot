@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NL.NiteLiga.Core", "NL.Nite
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiteLigaDesktopApp", "NiteLigaDesktopApp\NiteLigaDesktopApp.csproj", "{DED8E75E-CF45-4650-A804-C08AD3A1BF8A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{24235B9B-B7DB-4537-B8CC-10D20BF76CA8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Old", "Old", "{B129C266-4E21-453C-B0C6-E357FDDD1056}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameControlCenter", "GameControlCenter\GameControlCenter.csproj", "{5E2A18B5-7FE0-4099-BBA2-938FF2F077BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,9 +51,20 @@ Global
 		{DED8E75E-CF45-4650-A804-C08AD3A1BF8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DED8E75E-CF45-4650-A804-C08AD3A1BF8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DED8E75E-CF45-4650-A804-C08AD3A1BF8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E2A18B5-7FE0-4099-BBA2-938FF2F077BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E2A18B5-7FE0-4099-BBA2-938FF2F077BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E2A18B5-7FE0-4099-BBA2-938FF2F077BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E2A18B5-7FE0-4099-BBA2-938FF2F077BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B5CCCCFB-10FC-4209-AD83-559E4BA53BCF} = {B129C266-4E21-453C-B0C6-E357FDDD1056}
+		{8BD0AD62-510F-4DD0-9A2A-4485CED9ABC4} = {B129C266-4E21-453C-B0C6-E357FDDD1056}
+		{DED8E75E-CF45-4650-A804-C08AD3A1BF8A} = {24235B9B-B7DB-4537-B8CC-10D20BF76CA8}
+		{B129C266-4E21-453C-B0C6-E357FDDD1056} = {24235B9B-B7DB-4537-B8CC-10D20BF76CA8}
+		{5E2A18B5-7FE0-4099-BBA2-938FF2F077BB} = {24235B9B-B7DB-4537-B8CC-10D20BF76CA8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA7B7FDF-3D1A-4EFF-B66B-06A2B8134DA2}
