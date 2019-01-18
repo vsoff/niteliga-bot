@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1DD55907-AA3A-4A22-BB27-A74A9EB92DD1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NL.NiteLiga.Core</RootNamespace>
+    <AssemblyName>NL.NiteLiga.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.13\lib\net46\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.13\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.2.5.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.13\lib\net46\Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.8.13.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.13\lib\net46\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception, Version=5.5.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.13\lib\net46\Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception.Configuration, Version=5.1.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.13\lib\net46\Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RegistrationByConvention, Version=2.1.9.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.13\lib\net46\Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.13\lib\net46\Unity.ServiceLocation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataAccess\Entites\GameMatch.cs" />
+    <Compile Include="DataAccess\Entites\GameTemplate.cs" />
+    <Compile Include="DataAccess\Entites\Player.cs" />
+    <Compile Include="DataAccess\Entites\Membership.cs" />
+    <Compile Include="DataAccess\Entites\Team.cs" />
+    <Compile Include="Game\Events\Types\AdminSendMessage.cs" />
+    <Compile Include="Game\Events\Types\GameAborted.cs" />
+    <Compile Include="Game\Events\GameEvent.cs" />
+    <Compile Include="Game\Events\GameEventType.cs" />
+    <Compile Include="Game\Events\Types\GameRestored.cs" />
+    <Compile Include="Game\Events\Types\GameSaved.cs" />
+    <Compile Include="Game\Events\Types\GameStarted.cs" />
+    <Compile Include="Game\Events\Types\GameStopped.cs" />
+    <Compile Include="Game\Events\Types\PlayerCompletedTask.cs" />
+    <Compile Include="Game\Events\Types\PlayerFailedTask.cs" />
+    <Compile Include="Game\Events\Types\TeamDropTask.cs" />
+    <Compile Include="Game\Events\Types\TeamGetAddress.cs" />
+    <Compile Include="Game\Events\Types\TeamGetHint.cs" />
+    <Compile Include="Game\Events\Types\TeamStartsPlay.cs" />
+    <Compile Include="DataAccess\Entites\Objects\GameConfig.cs" />
+    <Compile Include="DataAccess\Entites\Objects\GameSettings.cs" />
+    <Compile Include="DataAccess\Entites\Objects\GameTask.cs" />
+    <Compile Include="Game\GameTeamStatus.cs" />
+    <Compile Include="Game\GameTeamProgress.cs" />
+    <Compile Include="Game\Messengers\FakeMessenger.cs" />
+    <Compile Include="Game\Messengers\IMessagePool.cs" />
+    <Compile Include="Game\Messengers\IMessenger.cs" />
+    <Compile Include="Game\Messengers\Message.cs" />
+    <Compile Include="Game\Messengers\MessagePool.cs" />
+    <Compile Include="Game\Messengers\VkontakteMessenger.cs" />
+    <Compile Include="Game\NiteLigaGameConfiguration.cs" />
+    <Compile Include="NiteLigaCoreModule.cs" />
+    <Compile Include="Game\NiteLigaGameManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataAccess\Repositories\GamesRepository.cs" />
+    <Compile Include="DataAccess\Repositories\IGamesRepository.cs" />
+    <Compile Include="DataAccess\DbContexts\INiteLigaContextProvider.cs" />
+    <Compile Include="DataAccess\Repositories\ITeamsRepository.cs" />
+    <Compile Include="DataAccess\DbContexts\NiteLigaContext.cs" />
+    <Compile Include="DataAccess\Repositories\TeamsRepository.cs" />
+    <Compile Include="Serialization\ConfigDeserializator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NL.Core\NL.Core.csproj">
+      <Project>{3f19d0db-1d7f-45a7-ac47-e147c5e472fb}</Project>
+      <Name>NL.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
