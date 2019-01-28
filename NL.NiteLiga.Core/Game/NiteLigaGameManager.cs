@@ -41,9 +41,9 @@ namespace NL.NiteLiga.Core.Game
             IMessagePool messagePool,
             ITeamsRepository teamsRepository)
         {
-            _messenger = messenger ?? throw new ArgumentNullException(nameof(_messenger));
-            _messagePool = messagePool ?? throw new ArgumentNullException(nameof(_messagePool));
-            _teamsRepository = teamsRepository ?? throw new ArgumentNullException(nameof(_teamsRepository));
+            _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
+            _messagePool = messagePool ?? throw new ArgumentNullException(nameof(messagePool));
+            _teamsRepository = teamsRepository ?? throw new ArgumentNullException(nameof(teamsRepository));
 
             _locker = new object();
             Status = GameStatusType.Created;
@@ -159,7 +159,7 @@ namespace NL.NiteLiga.Core.Game
             // STEP 4: Завершение игры
             // Переводим игру в статус "останавливается", если пришло время конца игры.
             if (Status == GameStatusType.InProgress &&
-                curTime.Subtract((DateTime)LaunchTime).TotalMinutes > _configuration.Settings.GameDurationMin)
+                (curTime - LaunchTime.Value).TotalMinutes > _configuration.Settings.GameDurationMin)
                 _newEvents.Add(new GameStopped(DateTime.Now));
 
             // Если после остановки игры прошло необходимое кол-во минут - завершаем игру.

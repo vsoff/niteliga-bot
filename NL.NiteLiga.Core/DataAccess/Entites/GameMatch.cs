@@ -15,6 +15,6 @@ namespace NL.NiteLiga.Core.DataAccess.Entites
         public bool IsTestRun { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime StartDate { get; set; }
-        public long GameProjectId { get; set; }
+        public long GameTemplateId { get; set; }
     }
 }
