@@ -11,6 +11,11 @@ namespace NL.NiteLiga.Core.DataAccess.Repositories
     {
         GameTemplate[] GetAllTemplatesLight();
         GameTemplate GetTemplateHard(long gameTemplateId);
+        long AddTemplate(GameTemplate template);
+        void DeleteTemplate(long templateId);
+
         GameMatch[] GetMatches(long gameTemplateId);
+        long AddMatch(GameMatch match);
+        void DeleteMatch(long matchId);
     }
 }

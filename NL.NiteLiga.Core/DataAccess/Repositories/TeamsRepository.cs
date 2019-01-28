@@ -20,6 +20,27 @@ namespace NL.NiteLiga.Core.DataAccess.Repositories
             _contextProvider = contextProvider ?? throw new ArgumentNullException(nameof(contextProvider));
         }
 
+        public long AddTeam(Team team)
+        {
+            using (var context = _contextProvider.GetContext())
+            {
+                context.Teams.Add(team);
+                context.SaveChanges();
+            }
+
+            return team.Id;
+        }
+
+        public void DeleteTeam(long teamId)
+        {
+            using (var context = _contextProvider.GetContext())
+            {
+                var team = context.Teams.First(x => x.Id == teamId);
+                context.Teams.Remove(team);
+                context.SaveChanges();
+            }
+        }
+
         public Team GetTeam(long teamId)
         {
             using (var context = _contextProvider.GetContext())

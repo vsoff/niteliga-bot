@@ -11,5 +11,7 @@ namespace NL.NiteLiga.Core.DataAccess.Repositories
     {
         Team GetTeam(long teamId);
         Team[] GetTeams(long[] teamIds);
+        long AddTeam(Team team);
+        void DeleteTeam(long teamId);
     }
 }

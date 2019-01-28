@@ -22,6 +22,48 @@ namespace NL.NiteLiga.Core.DataAccess.Repositories
             _niteLigaDeserializator = niteLigaSerializator ?? throw new ArgumentNullException(nameof(niteLigaSerializator));
         }
 
+        public long AddMatch(GameMatch match)
+        {
+            using (var context = _contextProvider.GetContext())
+            {
+                context.GameMatches.Add(match);
+                context.SaveChanges();
+            }
+
+            return match.Id;
+        }
+
+        public long AddTemplate(GameTemplate template)
+        {
+            using (var context = _contextProvider.GetContext())
+            {
+                context.GameTemplates.Add(template);
+                context.SaveChanges();
+            }
+
+            return template.Id;
+        }
+
+        public void DeleteMatch(long matchId)
+        {
+            using (var context = _contextProvider.GetContext())
+            {
+                var match = context.GameMatches.First(x => x.Id == matchId);
+                context.GameMatches.Remove(match);
+                context.SaveChanges();
+            }
+        }
+
+        public void DeleteTemplate(long templateId)
+        {
+            using (var context = _contextProvider.GetContext())
+            {
+                var template = context.GameTemplates.First(x => x.Id == templateId);
+                context.GameTemplates.Remove(template);
+                context.SaveChanges();
+            }
+        }
+
         public GameTemplate[] GetAllTemplatesLight()
         {
             using (var context = _contextProvider.GetContext())
@@ -34,7 +76,7 @@ namespace NL.NiteLiga.Core.DataAccess.Repositories
         {
             using (var context = _contextProvider.GetContext())
             {
-                var gameMatches = context.GameMatches.Where(x => x.GameProjectId == gameTemplateId);
+                var gameMatches = context.GameMatches.Where(x => x.GameTemplateId == gameTemplateId);
                 return gameMatches.ToArray();
             }
         }
