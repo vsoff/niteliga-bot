@@ -60,6 +60,43 @@ namespace GameControlCenter
             app.UseAuthentication();
 
             app.UseMvc();
+
+            CreateDefaultRoles(app.ApplicationServices).Wait();
+        }
+
+        private static readonly string[] Roles = new string[] { "Admin", "Organizer" };
+
+        private static async Task CreateDefaultRoles(IServiceProvider serviceProvider)
+        {
+            using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+                string adminRoleStr = Roles.First();
+
+                // Если первая роль уже есть, то значит инициализация уже была.
+                if (await roleManager.RoleExistsAsync(adminRoleStr))
+                    return;
+
+                // Создаём роль.
+                foreach (var role in Roles)
+                    if (!await roleManager.RoleExistsAsync(role))
+                        await roleManager.CreateAsync(new IdentityRole(role));
+
+                // Создаём пользователя.
+                var user = new ApplicationUser
+                {
+                    UserName = "admin@site.com",
+                    Email = "admin@site.com",
+                };
+
+                IdentityResult result = await userManager.CreateAsync(user, "admin1.PASS");
+
+                // Пролинковываем пользователя и роль.
+                if (result.Succeeded)
+                    await userManager.AddToRoleAsync(user, adminRoleStr);
+            }
         }
     }
 }
